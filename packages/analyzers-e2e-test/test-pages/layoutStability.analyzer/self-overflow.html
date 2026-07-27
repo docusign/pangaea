@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Self Overflow Test Page - Layout Stability Analyzer</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f5f5f5;
+      }
+
+      h1 {
+        color: #333;
+      }
+
+      h2 {
+        color: #666;
+        margin-top: 40px;
+        border-bottom: 2px solid #ddd;
+        padding-bottom: 10px;
+      }
+
+      .section {
+        margin-bottom: 40px;
+      }
+
+      .example {
+        background: white;
+        padding: 15px;
+        margin: 15px 0;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .example-label {
+        font-size: 12px;
+        color: #888;
+        margin-bottom: 10px;
+      }
+
+      /* ============================================
+           CASES THAT SHOULD TRIGGER SELF-OVERFLOW
+           ============================================ */
+
+      /* Fixed width + height button - text will overflow */
+      .fixed-width-button {
+        width: 80px;
+        height: 36px;
+        padding: 8px 12px;
+        background: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        white-space: nowrap;
+        /* overflow: visible (default) - will cause horizontal overflow */
+      }
+
+      /* Fixed height card with text */
+      .fixed-height-card {
+        width: 200px;
+        height: 60px;
+        padding: 10px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        /* overflow: visible (default) - will cause issue */
+      }
+
+      /* Fixed dimensions badge */
+      .fixed-badge {
+        display: inline-block;
+        width: 100px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        background: #28a745;
+        color: white;
+        border-radius: 12px;
+        font-size: 12px;
+        /* overflow: visible (default) - will cause issue */
+      }
+
+      /* Navigation item with fixed width + nowrap */
+      .nav-item {
+        display: inline-block;
+        width: 80px;
+        height: 40px;
+        padding: 10px;
+        text-align: center;
+        background: #343a40;
+        color: white;
+        white-space: nowrap;
+        /* overflow: visible (default) - will cause horizontal overflow */
+      }
+
+      /* Table cell with fixed width */
+      .fixed-table {
+        border-collapse: collapse;
+      }
+
+      .fixed-table td {
+        width: 100px;
+        padding: 8px;
+        border: 1px solid #ddd;
+        /* overflow: visible (default) - will cause issue */
+      }
+
+      /* Chip/Tag component - fixed size with nowrap */
+      .chip {
+        display: inline-block;
+        width: 60px;
+        height: 22px;
+        padding: 4px 8px;
+        background: #e9ecef;
+        border-radius: 16px;
+        font-size: 11px;
+        text-align: center;
+        white-space: nowrap;
+        /* overflow: visible (default) - will cause horizontal overflow */
+      }
+
+      /* Fixed width input label - with nowrap to force horizontal overflow */
+      .form-row {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+
+      .form-label {
+        width: 80px;
+        height: 20px;
+        margin-right: 10px;
+        font-size: 14px;
+        white-space: nowrap;
+        /* overflow: visible (default) - will cause horizontal overflow */
+      }
+
+      .form-input {
+        flex: 1;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      /* ============================================
+           CASES THAT SHOULD NOT TRIGGER (PROPER HANDLING)
+           ============================================ */
+
+      /* Button with overflow: hidden */
+      .button-with-hidden {
+        width: 80px;
+        padding: 8px 12px;
+        background: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* Card with overflow: auto (scrollable) */
+      .scrollable-card {
+        width: 200px;
+        height: 60px;
+        padding: 10px;
+        background: #f8f9fa;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        overflow: auto;
+      }
+
+      /* Flexible width button (no fixed width) */
+      .flexible-button {
+        padding: 8px 16px;
+        background: #17a2b8;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        /* No fixed width - will grow with content */
+      }
+
+      /* Card with min-width instead of fixed width */
+      .min-width-card {
+        min-width: 150px;
+        padding: 15px;
+        background: #fff3cd;
+        border: 1px solid #ffc107;
+        border-radius: 4px;
+      }
+
+      /* Container with text-overflow ellipsis */
+      .ellipsis-container {
+        width: 120px;
+        padding: 8px;
+        background: #d4edda;
+        border: 1px solid #28a745;
+        border-radius: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* ============================================
+           EDGE CASES
+           ============================================ */
+
+      /* Only horizontal overflow should trigger */
+      .horizontal-only {
+        width: 100px;
+        height: 40px;
+        padding: 10px;
+        background: #ffeaa7;
+        border: 1px solid #fdcb6e;
+        border-radius: 4px;
+        overflow-y: hidden;
+        white-space: nowrap;
+        /* overflow-x: visible (default) - should trigger for horizontal */
+      }
+
+      /* Only vertical overflow should trigger */
+      .vertical-only {
+        width: 200px;
+        height: 40px;
+        padding: 10px;
+        background: #dfe6e9;
+        border: 1px solid #b2bec3;
+        border-radius: 4px;
+        overflow-x: hidden;
+        /* overflow-y: visible (default) - should trigger for vertical */
+      }
+
+      /* Nested container - inner should trigger */
+      .outer-container {
+        padding: 15px;
+        background: #fab1a0;
+        border-radius: 8px;
+      }
+
+      .inner-fixed {
+        width: 100px;
+        height: 30px;
+        padding: 8px;
+        background: white;
+        border-radius: 4px;
+        white-space: nowrap;
+        /* overflow: visible (default) - will cause horizontal overflow */
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Self Overflow Test Page</h1>
+    <p>
+      This page tests the SelfOverflowAnalyzerStrategy which detects elements where content
+      overflows their own bounds after text expansion.
+    </p>
+
+    <!-- SHOULD TRIGGER ISSUES -->
+    <section class="section">
+      <h2>❌ Should Trigger Self-Overflow Issues</h2>
+      <p>
+        These elements have fixed dimensions with <code>overflow: visible</code> (default) - they
+        will overflow when text expands.
+      </p>
+
+      <div class="example">
+        <div class="example-label">Fixed Width Button</div>
+        <button class="fixed-width-button">Submit</button>
+        <button class="fixed-width-button">Cancel</button>
+        <button class="fixed-width-button">Save</button>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Fixed Height Card</div>
+        <div class="fixed-height-card">
+          This card has a fixed height and will overflow when the text expands.
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Fixed Badge</div>
+        <span class="fixed-badge">Active</span>
+        <span class="fixed-badge">Pending</span>
+        <span class="fixed-badge">Complete</span>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Navigation Items</div>
+        <nav>
+          <span class="nav-item">Home</span>
+          <span class="nav-item">About</span>
+          <span class="nav-item">Contact</span>
+          <span class="nav-item">Services</span>
+        </nav>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Fixed Width Table Cells</div>
+        <table class="fixed-table">
+          <tr>
+            <td>Name</td>
+            <td>Status</td>
+            <td>Action</td>
+          </tr>
+          <tr>
+            <td>Item One</td>
+            <td>Active</td>
+            <td>Delete</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Chip/Tag Components</div>
+        <span class="chip">Tag</span>
+        <span class="chip">Label</span>
+        <span class="chip">Category</span>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Form Labels</div>
+        <div class="form-row">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-input" placeholder="Enter username" />
+        </div>
+        <div class="form-row">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-input" placeholder="Enter password" />
+        </div>
+      </div>
+    </section>
+
+    <!-- SHOULD NOT TRIGGER -->
+    <section class="section">
+      <h2>✅ Should NOT Trigger Issues (Properly Handled)</h2>
+      <p>These elements handle overflow properly or have flexible dimensions.</p>
+
+      <div class="example">
+        <div class="example-label">Button with overflow: hidden + ellipsis</div>
+        <button class="button-with-hidden">Submit Button Text</button>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Scrollable Card (overflow: auto)</div>
+        <div class="scrollable-card">
+          This card has overflow: auto so it will show scrollbars instead of overflowing visually.
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Flexible Width Button (no fixed width)</div>
+        <button class="flexible-button">This button grows with content</button>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Card with min-width (can grow)</div>
+        <div class="min-width-card">This card uses min-width so it can expand when needed.</div>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Container with text-overflow: ellipsis</div>
+        <div class="ellipsis-container">Long text that will be truncated with ellipsis</div>
+      </div>
+    </section>
+
+    <!-- EDGE CASES -->
+    <section class="section">
+      <h2>⚠️ Edge Cases</h2>
+      <p>These test specific overflow scenarios.</p>
+
+      <div class="example">
+        <div class="example-label">Horizontal overflow only (overflow-y: hidden)</div>
+        <div class="horizontal-only">This text may overflow horizontally only.</div>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Vertical overflow only (overflow-x: hidden)</div>
+        <div class="vertical-only">
+          This text may overflow vertically when it wraps to multiple lines after expansion.
+        </div>
+      </div>
+
+      <div class="example">
+        <div class="example-label">Nested Container (inner should trigger)</div>
+        <div class="outer-container">
+          <div class="inner-fixed">Inner text</div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

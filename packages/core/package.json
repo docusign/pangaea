@@ -1,0 +1,44 @@
+{
+  "name": "@pangaea/glob-audit-core",
+  "version": "0.1.0",
+  "description": "Core library for the Globalization Audit Tool",
+  "license": "MIT",
+  "author": "Docusign, Inc.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prebuild": "yarn clean",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage --passWithNoTests",
+    "check-types": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist coverage .turbo .tsbuildinfo"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.1",
+    "@types/uuid": "^11.0.0",
+    "typescript": "^5.7.2"
+  },
+  "module": "./dist/index.js",
+  "dependencies": {
+    "@medv/finder": "^4.0.2",
+    "franc-min": "6.2.0",
+    "uuid": "^13.0.0"
+  }
+}

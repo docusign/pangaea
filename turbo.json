@@ -1,0 +1,75 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "ui": "tui",
+  "globalDependencies": [".env*"],
+  "globalEnv": ["NODE_ENV", "CI", "BUILD_REASON"],
+  "tasks": {
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", "lib/**", ".tsbuildinfo"],
+      "cache": true,
+      "persistent": false
+    },
+    "lint": {
+      "dependsOn": ["^lint"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": [],
+      "cache": true,
+      "persistent": false
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": [],
+      "cache": false,
+      "persistent": false
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": ["coverage/**", "junit.xml"],
+      "cache": true,
+      "persistent": false
+    },
+    "test:watch": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "test:coverage": {
+      "dependsOn": ["^build"],
+      "outputs": ["coverage/**"],
+      "cache": true,
+      "persistent": false
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"],
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": [],
+      "cache": true,
+      "persistent": false
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true,
+      "dependsOn": ["^build"]
+    },
+    "clean": {
+      "cache": false,
+      "persistent": false
+    },
+    "format": {
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": [],
+      "cache": true,
+      "persistent": false
+    },
+    "format:check": {
+      "inputs": ["$TURBO_DEFAULT$"],
+      "outputs": [],
+      "cache": true,
+      "persistent": false
+    }
+  }
+}

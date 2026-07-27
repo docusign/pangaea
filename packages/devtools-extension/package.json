@@ -1,0 +1,52 @@
+{
+  "name": "@pangaea/glob-audit-extension",
+  "version": "0.1.0",
+  "description": "Chrome Extension for the Globalization Audit Tool",
+  "license": "MIT",
+  "author": "Docusign, Inc.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prebuild": "yarn clean",
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage --passWithNoTests",
+    "check-types": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist coverage .turbo .tsbuildinfo"
+  },
+  "dependencies": {
+    "@pangaea/glob-audit-core": "workspace:*",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.270",
+    "@types/node": "^22.10.1",
+    "@types/react": "^18.2.45",
+    "@types/react-dom": "^18.2.18",
+    "@types/uuid": "^11.0.0",
+    "copy-webpack-plugin": "^14.0.0",
+    "html-webpack-plugin": "^5",
+    "ts-loader": "^9",
+    "typescript": "^5.7.2",
+    "webpack": "^5",
+    "webpack-cli": "^5"
+  },
+  "module": "./dist/index.js"
+}

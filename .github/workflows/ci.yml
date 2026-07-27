@@ -1,0 +1,51 @@
+# SPDX-FileCopyrightText: 2026 Docusign, Inc.
+# SPDX-License-Identifier: MIT
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Type-check
+        run: yarn check-types
+
+      - name: Lint
+        run: yarn lint
+
+      - name: Check formatting
+        run: yarn format:check
+
+      # Excludes the Playwright E2E package, which needs browsers + served
+      # fixtures and runs as a separate workflow (mirrors the prior CI setup).
+      - name: Test
+        run: yarn test --filter=!@pangaea/analyzers-e2e-test
+
+      - name: Build
+        run: yarn build
