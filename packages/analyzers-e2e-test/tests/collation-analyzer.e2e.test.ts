@@ -10,14 +10,10 @@ test.describe('CollationAnalyzer E2E', () => {
 
     const report = await runAudit({
       page,
-      thresholds: {
-        CollationAnalyzer: 0,
-        RTLAnalyzer: 0,
-        EncodingAnalyzer: 0,
-        LayoutStabilityAnalyzer: 0,
-        IMEAnalyzer: 0,
-        LanguageAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so none are disabled
+      // (threshold 0 disables an analyzer) and none trigger a legacy-mode throw.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     expect(report).toBeDefined();
@@ -41,14 +37,10 @@ test.describe('CollationAnalyzer E2E', () => {
 
     const report = await runAudit({
       page,
-      thresholds: {
-        CollationAnalyzer: 0,
-        RTLAnalyzer: 0,
-        EncodingAnalyzer: 0,
-        LayoutStabilityAnalyzer: 0,
-        IMEAnalyzer: 0,
-        LanguageAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so none are disabled
+      // (threshold 0 disables an analyzer) and none trigger a legacy-mode throw.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     const selectIssues = report.issues.filter(
@@ -68,14 +60,10 @@ test.describe('CollationAnalyzer E2E', () => {
 
     const report = await runAudit({
       page,
-      thresholds: {
-        CollationAnalyzer: 0,
-        RTLAnalyzer: 0,
-        EncodingAnalyzer: 0,
-        LayoutStabilityAnalyzer: 0,
-        IMEAnalyzer: 0,
-        LanguageAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so none are disabled
+      // (threshold 0 disables an analyzer) and none trigger a legacy-mode throw.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     const tableIssues = report.issues.filter(
@@ -95,14 +83,10 @@ test.describe('CollationAnalyzer E2E', () => {
 
     const report = await runAudit({
       page,
-      thresholds: {
-        CollationAnalyzer: 0,
-        RTLAnalyzer: 0,
-        EncodingAnalyzer: 0,
-        LayoutStabilityAnalyzer: 0,
-        IMEAnalyzer: 0,
-        LanguageAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so none are disabled
+      // (threshold 0 disables an analyzer) and none trigger a legacy-mode throw.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     const collationIssues = report.issues.filter((issue: { type: string }) =>

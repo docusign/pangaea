@@ -10,9 +10,10 @@ test.describe('IMEAnalyzer E2E', () => {
 
     const report = await runAudit({
       page,
-      thresholds: {
-        IMEAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so IME is not disabled
+      // (threshold 0 disables an analyzer) and no legacy-mode throw is triggered.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     expect(report).toBeDefined();
@@ -40,9 +41,10 @@ test.describe('IMEAnalyzer E2E', () => {
 
     const report = await runAudit({
       page,
-      thresholds: {
-        IMEAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so IME is not disabled
+      // (threshold 0 disables an analyzer) and no legacy-mode throw is triggered.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     expect(report.analyzerScores.IMEAnalyzer).toBeDefined();

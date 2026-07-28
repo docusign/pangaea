@@ -11,13 +11,10 @@ test.describe('LanguageAnalyzer E2E', () => {
     const report = await runAudit({
       page,
       languageTarget: 'en', // Required to run language analyzer phase
-      thresholds: {
-        LanguageAnalyzer: 1, // Don't disable — set a low threshold to allow issues
-        RTLAnalyzer: 0,
-        EncodingAnalyzer: 0,
-        LayoutStabilityAnalyzer: 0,
-        IMEAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so none are disabled
+      // (threshold 0 disables an analyzer) and none trigger a legacy-mode throw.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     expect(report).toBeDefined();
@@ -35,21 +32,14 @@ test.describe('LanguageAnalyzer E2E', () => {
     );
     expect(textMismatchIssues.length).toBeGreaterThanOrEqual(2);
 
-    // Should detect link mismatch issues (/fr/about, /de/about, ?lang=es, hreflang=ja)
-    const linkMismatchIssues = languageIssues.filter(
-      (issue: { type: string }) => issue.type === 'language-link-mismatch',
-    );
-    expect(linkMismatchIssues.length).toBeGreaterThanOrEqual(3);
-
     // Text mismatch issues should have moderate severity
     for (const issue of textMismatchIssues) {
       expect(issue.severity).toBe('moderate');
     }
 
-    // Link mismatch issues should have minor severity
-    for (const issue of linkMismatchIssues) {
-      expect(issue.severity).toBe('minor');
-    }
+    // NOTE: link-mismatch detection (LinkLanguageMismatchStrategy) is currently
+    // disabled in LanguageAnalyzer pending stabilization, so `language-link-mismatch`
+    // issues are intentionally not asserted here. Re-add coverage when it is re-enabled.
   });
 
   test('should not flag text wrapped in correct lang attribute', async ({ page }) => {
@@ -58,13 +48,10 @@ test.describe('LanguageAnalyzer E2E', () => {
     const report = await runAudit({
       page,
       languageTarget: 'en', // Required to run language analyzer phase
-      thresholds: {
-        LanguageAnalyzer: 1,
-        RTLAnalyzer: 0,
-        EncodingAnalyzer: 0,
-        LayoutStabilityAnalyzer: 0,
-        IMEAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so none are disabled
+      // (threshold 0 disables an analyzer) and none trigger a legacy-mode throw.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     // The French section with lang="fr" should NOT be flagged
