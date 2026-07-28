@@ -35,7 +35,7 @@ automated CI auditing.
 
 ## Prerequisites
 
-- Node.js 22+ (see `.node-version`)
+- Node.js 22+ (see `.node-version` / `.nvmrc`)
 - Yarn (Corepack) — enabled automatically via `.yarnrc.yml`
 
 ---
@@ -96,6 +96,30 @@ Add it to your project:
 yarn add @pangaea/playwright
 ```
 
+### Usage
+
+Import `runAudit` and run it against a page inside a test:
+
+```typescript
+import { test, expect } from '@playwright/test';
+import { runAudit } from '@pangaea/playwright';
+
+test('passes the globalization audit', async ({ page }) => {
+  await page.goto('https://example.com');
+
+  const result = await runAudit({
+    page,
+    target: { name: 'Homepage', path: '/' },
+    thresholds: { globalizationScore: 70 },
+  });
+
+  expect(result.globalScore).toBeGreaterThanOrEqual(70);
+});
+```
+
+See the [plugin README](packages/playwright-plugin/README.md) for per-analyzer thresholds, result
+artifacts, and reporter configuration.
+
 ---
 
 ## Development
@@ -116,10 +140,20 @@ yarn clean            # Delete all build outputs and node_modules
 
 ---
 
-## License
+## Contributing
 
-[MIT](LICENSE) © Docusign, Inc.
+Contributions are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) for the development workflow,
+coding standards, and how to open issues and pull requests.
+
+## Security
+
+To report a security vulnerability, please follow the process in [SECURITY.md](SECURITY.md). Do not
+open a public issue for security reports.
 
 ## Community
 
 Participation in this project is governed by our [Code of Conduct](CODE_OF_CONDUCT.md).
+
+## License
+
+[MIT](LICENSE) © Docusign, Inc.
