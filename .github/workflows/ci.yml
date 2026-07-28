@@ -45,7 +45,7 @@ jobs:
       # Excludes the Playwright E2E package, which needs browsers + served
       # fixtures and runs in the dedicated E2E workflow (.github/workflows/e2e.yml).
       - name: Test
-        run: yarn test --filter=!@pangaea/analyzers-e2e-test
+        run: yarn test --filter='!*e2e*'
 
       - name: Build
         run: yarn build
