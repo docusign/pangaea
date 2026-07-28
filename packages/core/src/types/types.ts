@@ -34,9 +34,14 @@ export interface AuditReport {
   issues: Issue[];
 }
 
-// TODO: Add comment later
+/**
+ * A globalization analyzer. Each analyzer inspects a DOM subtree and reports
+ * the issues it finds.
+ */
 export interface Analyzer {
+  /** Unique, human-readable name of the analyzer (e.g. `"RTLAnalyzer"`). */
   name: string;
+  /** Run the analyzer against `rootElement` and resolve with the issues found. */
   run(rootElement: HTMLElement): Promise<Issue[]>;
 }
 
@@ -52,9 +57,14 @@ export interface AnalyzerStrategy<TContext extends AnalyzerContext> {
   analyze(context: TContext): Awaitable<Issue[]>;
 }
 
-// TODO: Add comment later
+/**
+ * Shared context passed to each {@link AnalyzerStrategy}. Holds the subtree
+ * root and the set of elements the analyzer has collected for inspection.
+ */
 export interface AnalyzerContext {
+  /** Root element of the subtree being analyzed. */
   rootElement: HTMLElement;
+  /** Candidate elements the analyzer collected from the subtree. */
   elements: HTMLElement[];
 }
 
@@ -75,7 +85,10 @@ export interface ElementSnapshot {
   clientHeight: number;
 }
 
-// TODO: Add Comment later
+/**
+ * Configuration for an analyzer: the set of strategies it runs against a
+ * matching {@link AnalyzerContext}.
+ */
 export interface AnalyzerConfig<TContext extends AnalyzerContext> {
   strategies: AnalyzerStrategy<TContext>[];
 }
