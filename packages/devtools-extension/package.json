@@ -37,8 +37,8 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@types/chrome": "^0.0.270",
-    "@types/node": "^22.10.1",
+    "@types/chrome": "^0.2.2",
+    "@types/node": "^26.1.2",
     "@types/react": "^18.2.45",
     "@types/react-dom": "^18.2.18",
     "@types/uuid": "^11.0.0",
@@ -47,7 +47,7 @@
     "ts-loader": "^9",
     "typescript": "^5.7.2",
     "webpack": "^5",
-    "webpack-cli": "^5"
+    "webpack-cli": "^7"
   },
   "module": "./dist/index.js"
 }

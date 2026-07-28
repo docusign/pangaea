@@ -38,7 +38,7 @@
     "clean": "rimraf dist coverage .turbo .tsbuildinfo"
   },
   "peerDependencies": {
-    "@playwright/test": "^1.40.0"
+    "@playwright/test": "^1.62.0"
   },
   "dependencies": {
     "@opentelemetry/api": "^1.9.1",
@@ -48,8 +48,8 @@
     "@pangaea/core": "workspace:*"
   },
   "devDependencies": {
-    "@playwright/test": "^1.40.0",
-    "@types/node": "^22.10.1",
+    "@playwright/test": "^1.62.0",
+    "@types/node": "^26.1.2",
     "typescript": "^5.7.2"
   }
 }

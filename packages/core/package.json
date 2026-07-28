@@ -31,7 +31,7 @@
     "clean": "rimraf dist coverage .turbo .tsbuildinfo"
   },
   "devDependencies": {
-    "@types/node": "^22.10.1",
+    "@types/node": "^26.1.2",
     "@types/uuid": "^11.0.0",
     "typescript": "^5.7.2"
   },
