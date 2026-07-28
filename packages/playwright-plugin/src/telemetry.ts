@@ -8,11 +8,11 @@ import { resourceFromAttributes } from '@opentelemetry/resources';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { SeverityNumber } from '@opentelemetry/api-logs';
 
-import type { AuditReport } from '@pangaea/glob-audit-core';
+import type { AuditReport } from '@pangaea/core';
 
 declare const LIBRARY_VERSION: string;
 
-const SERVICE_NAME = 'glob-audit-playwright';
+const SERVICE_NAME = 'pangaea-playwright';
 
 /**
  * Returns the OTLP logs endpoint from the environment, or `undefined` when none
@@ -81,7 +81,7 @@ export async function sendAuditMetrics(
   if (!endpoint) return; // opt-in: no collector configured, so emit nothing
 
   const provider = getLoggerProvider(endpoint);
-  const logger = provider.getLogger('@pangaea/glob-audit-playwright');
+  const logger = provider.getLogger('@pangaea/playwright');
 
   const attributes: Record<string, string | number> = {
     repo_id: getRepoId(),
