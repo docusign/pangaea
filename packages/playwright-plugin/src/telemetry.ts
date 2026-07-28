@@ -12,7 +12,7 @@ import type { AuditReport } from '@pangaea/core';
 
 declare const LIBRARY_VERSION: string;
 
-const SERVICE_NAME = 'glob-audit-playwright';
+const SERVICE_NAME = 'pangaea-playwright';
 
 /**
  * Returns the OTLP logs endpoint from the environment, or `undefined` when none
