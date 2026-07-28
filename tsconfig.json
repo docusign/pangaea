@@ -18,8 +18,8 @@
     "allowImportingTsExtensions": false,
     "verbatimModuleSyntax": true,
     "paths": {
-      "@pangaea/glob-audit-core": ["./packages/core/src"],
-      "@pangaea/glob-audit-core/*": ["./packages/core/src/*"],
+      "@pangaea/core": ["./packages/core/src"],
+      "@pangaea/core/*": ["./packages/core/src/*"],
       "@core/*": ["./packages/core/src/*"],
       "@analyzers/*": ["./packages/core/src/analyzers/*"],
       "@types/*": ["./packages/core/src/types/*"]

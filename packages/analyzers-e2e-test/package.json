@@ -10,8 +10,8 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@pangaea/glob-audit-core": "workspace:*",
-    "@pangaea/glob-audit-playwright": "workspace:*"
+    "@pangaea/core": "workspace:*",
+    "@pangaea/playwright": "workspace:*"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",

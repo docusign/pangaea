@@ -1089,16 +1089,16 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@pangaea/analyzers-e2e-test@workspace:packages/analyzers-e2e-test"
   dependencies:
-    "@pangaea/glob-audit-core": "workspace:*"
-    "@pangaea/glob-audit-playwright": "workspace:*"
+    "@pangaea/core": "workspace:*"
+    "@pangaea/playwright": "workspace:*"
     "@playwright/test": "npm:^1.40.0"
     http-server: "npm:^14.1.1"
   languageName: unknown
   linkType: soft
 
-"@pangaea/glob-audit-core@workspace:*, @pangaea/glob-audit-core@workspace:packages/core":
+"@pangaea/core@workspace:*, @pangaea/core@workspace:packages/core":
   version: 0.0.0-use.local
-  resolution: "@pangaea/glob-audit-core@workspace:packages/core"
+  resolution: "@pangaea/core@workspace:packages/core"
   dependencies:
     "@medv/finder": "npm:^4.0.2"
     "@types/node": "npm:^22.10.1"
@@ -1109,11 +1109,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pangaea/glob-audit-extension@workspace:packages/devtools-extension":
+"@pangaea/extension@workspace:packages/devtools-extension":
   version: 0.0.0-use.local
-  resolution: "@pangaea/glob-audit-extension@workspace:packages/devtools-extension"
+  resolution: "@pangaea/extension@workspace:packages/devtools-extension"
   dependencies:
-    "@pangaea/glob-audit-core": "workspace:*"
+    "@pangaea/core": "workspace:*"
     "@types/chrome": "npm:^0.0.270"
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^18.2.45"
@@ -1128,23 +1128,6 @@ __metadata:
     uuid: "npm:^13.0.0"
     webpack: "npm:^5"
     webpack-cli: "npm:^5"
-  languageName: unknown
-  linkType: soft
-
-"@pangaea/glob-audit-playwright@workspace:*, @pangaea/glob-audit-playwright@workspace:packages/playwright-plugin":
-  version: 0.0.0-use.local
-  resolution: "@pangaea/glob-audit-playwright@workspace:packages/playwright-plugin"
-  dependencies:
-    "@opentelemetry/api": "npm:^1.9.1"
-    "@opentelemetry/exporter-logs-otlp-http": "npm:^0.221.0"
-    "@opentelemetry/resources": "npm:^2.10.0"
-    "@opentelemetry/sdk-logs": "npm:^0.221.0"
-    "@pangaea/glob-audit-core": "workspace:*"
-    "@playwright/test": "npm:^1.40.0"
-    "@types/node": "npm:^22.10.1"
-    typescript: "npm:^5.7.2"
-  peerDependencies:
-    "@playwright/test": ^1.40.0
   languageName: unknown
   linkType: soft
 
@@ -1174,6 +1157,23 @@ __metadata:
     typescript-eslint: "npm:^8.16.0"
     vite: "npm:^6.0.3"
     vitest: "npm:^3.2.7"
+  languageName: unknown
+  linkType: soft
+
+"@pangaea/playwright@workspace:*, @pangaea/playwright@workspace:packages/playwright-plugin":
+  version: 0.0.0-use.local
+  resolution: "@pangaea/playwright@workspace:packages/playwright-plugin"
+  dependencies:
+    "@opentelemetry/api": "npm:^1.9.1"
+    "@opentelemetry/exporter-logs-otlp-http": "npm:^0.221.0"
+    "@opentelemetry/resources": "npm:^2.10.0"
+    "@opentelemetry/sdk-logs": "npm:^0.221.0"
+    "@pangaea/core": "workspace:*"
+    "@playwright/test": "npm:^1.40.0"
+    "@types/node": "npm:^22.10.1"
+    typescript: "npm:^5.7.2"
+  peerDependencies:
+    "@playwright/test": ^1.40.0
   languageName: unknown
   linkType: soft
 

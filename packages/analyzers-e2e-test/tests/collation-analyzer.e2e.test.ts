@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { test, expect } from '@playwright/test';
-import { runAudit } from '@pangaea/glob-audit-playwright';
+import { runAudit } from '@pangaea/playwright';
 
 test.describe('CollationAnalyzer E2E', () => {
   test('should detect unsorted lists on test page', async ({ page }) => {
