@@ -61,12 +61,10 @@ test.describe('RTLAnalyzer E2E - Bad Page Tests', () => {
 
     const report = await runAudit({
       page,
-      thresholds: {
-        RTLAnalyzer: 0,
-        EncodingAnalyzer: 0,
-        LayoutStabilityAnalyzer: 0,
-        IMEAnalyzer: 0,
-      },
+      // Run every analyzer with a pass-threshold of 0 so none are disabled
+      // (threshold 0 disables an analyzer) and none trigger a legacy-mode throw.
+      thresholds: {},
+      defaultThreshold: 0,
     });
 
     // Bad page should have issues
