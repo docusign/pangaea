@@ -26,6 +26,7 @@ automated CI auditing.
 | **LayoutStabilityAnalyzer** | Content overflow (self-overflow and parent-overflow) that breaks when text expands                                    |
 | **IMEAnalyzer**             | Input fields with keyboard handlers that are missing an `event.isComposing` guard, which breaks CJK input composition |
 | **LanguageAnalyzer**        | Text content or links whose detected language does not match the page's declared `lang` attribute                     |
+| **CollationAnalyzer**       | List, table, and `select` elements whose items are not sorted correctly for the page locale                           |
 
 ---
 
