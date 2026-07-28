@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 Docusign, Inc.
+# SPDX-License-Identifier: MIT
+
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability
+    url: https://github.com/docusign/pangaea/security/advisories/new
+    about: Please report security issues privately, not as public issues. See SECURITY.md.
+  - name: Question or discussion
+    url: https://github.com/docusign/pangaea/discussions
+    about: Ask questions and discuss ideas with the community.

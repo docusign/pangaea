@@ -1,0 +1,54 @@
+# SPDX-FileCopyrightText: 2026 Docusign, Inc.
+# SPDX-License-Identifier: MIT
+
+name: Bug Report
+description: Report a problem with an analyzer, the extension, or the plugin
+labels: ['bug']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug report. Please search
+        [existing issues](https://github.com/docusign/pangaea/issues) first to avoid duplicates.
+  - type: dropdown
+    id: package
+    attributes:
+      label: Affected package
+      options:
+        - '@pangaea/core'
+        - '@pangaea/playwright'
+        - '@pangaea/extension (Chrome DevTools)'
+        - Not sure
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear description of the bug, including what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps, sample HTML/markup, or a code snippet that triggers the issue.
+      placeholder: |
+        1. Run the audit on ...
+        2. Observe ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: e.g. 0.1.0
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Node version, browser + version (for the extension), OS.
+    validations:
+      required: false
