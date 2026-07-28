@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IME Functionality</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+
+    input {
+      width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    input[type="checkbox"] {
+      width: auto;
+      padding: 0;
+      margin-right: 5px;
+    }
+
+    .example {
+      margin-bottom: 20px;
+    }
+
+    .example h2 {
+      margin-top: 0;
+    }
+
+    .tab {
+      display: inline-block;
+      padding: 10px;
+      cursor: pointer;
+      background-color: #f1f1f1;
+      border: 1px solid #ccc;
+      margin-right: 5px;
+    }
+
+    .tab-content {
+      display: none;
+      padding: 10px;
+      border: 1px solid #ccc;
+      margin-top: 5px;
+    }
+
+    .active-tab {
+      background-color: #ccc;
+    }
+
+    .active-content {
+      display: block;
+    }
+
+    .editable {
+      width: 300px;
+      padding: 12px;
+      font-size: 16px;
+      background-color: #b1d0f4;
+      color: #000;
+      margin-bottom: 10px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    table {
+      border: 1px solid black;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid black;
+      padding: 8px;
+    }
+
+    th {
+      font-weight: bold;
+      text-align: center;
+    }
+
+    td {
+      vertical-align: top;
+    }
+
+    .secondary-event {
+      color: rgb(132, 132, 132);
+    }
+
+    .diff-event {
+      color: red;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>IME Functionality in Browsers</h1>
+  <p>An Input Method Editor (IME) is a software component that allows users to input text in languages that have more
+    characters than can be represented on a standard keyboard. IMEs are particularly useful for languages like Chinese,
+    Japanese, and Korean, where the number of characters far exceeds the number of keys on a keyboard.</p>
+
+  <h2>How it works</h2>
+  <p>Here's how an IME typically works in a browser:
+  <ol>
+    <li><b>Activation</b>: The IME is activated either automatically when the user selects a text input field or
+      manually by the user through a keyboard shortcut or menu selection.</li>
+    <li><b>Input Capture</b>: When the user types, the IME intercepts the keystrokes before they reach the browser's
+      text input field. Instead of directly inserting the typed characters, the IME processes them to determine the
+      intended characters or words.</li>
+    <li><b>Candidate Selection</b>: For languages with complex characters, the IME often presents a list of candidate
+      characters or words that match the user's input. The user can then select the desired character or word from this
+      list.</li>
+    <li><b>Conversion</b>: The IME converts the selected candidate into the appropriate characters and inserts them into
+      the text input field in the browser.</li>
+    <li><b>Feedback</b>: The IME provides visual feedback to the user, often through a floating window or inline
+      suggestions, showing the current input and possible candidates.</li>
+    <li><b>Integration</b>: Modern browsers are designed to integrate seamlessly with IMEs, ensuring that the input
+      process is smooth and that the IME can interact with web applications without issues.</li>
+    <li><b>Customization</b>: Users can often customize the behavior of the IME, such as changing the input method,
+      adjusting the candidate selection process, and configuring shortcuts.</li>
+  </ol>
+  Overall, IMEs enhance the user experience by enabling efficient and accurate text input for languages with large
+  character sets, making it possible to use these languages effectively in web applications and browsers.
+  </p>
+
+  <h2>Conditions that Break IME Functionality</h2>
+  <p>Certain coding patterns can interfere with the functionality of an Input Method Editor (IME) in a browser. Here are
+    some common issues and patterns that can break IME functionality:</p>
+  <ol>
+    <li><b>Custom Input Handling:</b>
+      <ul>
+        <li><b>JavaScript Key Event Handling</b>: Overly aggressive handling of key events (keydown, keyup, keypress)
+          can disrupt IME operations. For example, if a script prevents default actions or stops propagation of these
+          events, it can interfere with the IME's ability to capture and process input.</li>
+        <li><b>Input Event Interception</b>: Manipulating input events without considering IME behavior can cause
+          issues. For instance, if a script modifies the value of an input field directly in response to key events, it
+          might conflict with the IME's input process.</li>
+      </ul>
+    </li>
+    <li><b>Focus Management:</b>
+      <ul>
+        <li><b>Focus Switching</b>: Rapidly changing focus between elements can disrupt IME functionality. IMEs often
+          rely on maintaining focus on the input field to process and insert characters correctly.</li>
+        <li><b>Blur Events</b>: Triggering blur events (e.g., when an input field loses focus) can prematurely end IME
+          input sessions, causing incomplete or incorrect text input.</li>
+      </ul>
+    </li>
+    <li><b>DOM Manipulation:</b>
+      <ul>
+        <li><b>Dynamic Element Creation/Removal</b>: Frequently adding or removing input elements from the DOM can
+          interfere with IME operations. If an input field is removed while the IME is active, it can cause the IME to
+          lose context and fail to insert text properly.</li>
+        <li><b>ContentEditable Elements</b>: Improper handling of contenteditable elements can cause issues. IMEs may
+          not work correctly if the contenteditable element is manipulated in ways that disrupt the normal text input
+          flow.</li>
+      </ul>
+    </li>
+    <li><b>CSS Styling:</b>
+      <ul>
+        <li><b>Visibility and Display</b>: Changing the visibility or display properties of input elements can affect
+          IME functionality. For example, setting an input field to <code>display: none</code> or
+          <code>visibility: hidden</code> while the IME is active can cause input issues.
+        </li>
+        <li><b>Positioning</b>: Using absolute or fixed positioning in a way that causes input fields to move
+          unexpectedly can disrupt IME operations.</li>
+      </ul>
+    </li>
+    <li><b>Third-Party Libraries:</b>
+      <ul>
+        <li><b>Incompatible Libraries</b>: Some third-party libraries that handle input fields or text areas might not
+          be fully compatible with IMEs. It's important to test IME functionality when integrating such libraries.</li>
+      </ul>
+    </li>
+    <li><b>Form Validation:</b>
+      <ul>
+        <li><b>Immediate Validation</b>: Implementing real-time validation that modifies the input field's value or
+          state can interfere with IME input. For example, if validation scripts automatically correct or format input
+          while the IME is active, it can cause conflicts.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h2>Examples</h2>
+  <p>Below are examples of common coding patterns that can break IME functionality and how to fix them:</p>
+  <div id="tabs">
+    <div class="tab" onclick="showTab('tab1')">Preventing Default Handling</div>
+    <div class="tab" onclick="showTab('tab2')">Input Event Interception</div>
+    <div class="tab" onclick="showTab('tab3')">Focus and Blur</div>
+    <div class="tab" onclick="showTab('tab5')">ContentEditable Elements</div>
+    <div class="tab" onclick="showTab('tab6')">CSS Styling</div>
+    <div class="tab" onclick="showTab('tab7')">Form Validation</div>
+    <div class="tab" onclick="showTab('tab8')">Dynamic Analysis Detection</div>
+  </div>
+
+
+  <div id="tab1" class="tab-content">
+    <h3>Preventing Default Handling</h3>
+    <h4>Breaking Example</h4>
+    <p>Preventing default actions for keydown events can interfere with IME operations.</p>
+    <input type="text" id="keyEventBreak" placeholder="Type here...">
+    <script>
+      document.getElementById('keyEventBreak').addEventListener('keydown', function (event) {
+        if (event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
+          // Prevent the default action for letter keydown events
+          event.preventDefault();
+          console.log('%cKeydown event prevented:', 'color: yellow;', event.key);
+        }
+      });
+
+      document.getElementById('keyEventBreak').addEventListener('keyup', function (event) {
+        if (event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
+          // Manually insert the character into the input field for letter keyup events
+          const inputField = event.target;
+          inputField.value += event.key;
+          console.log('%cKeyup event handled:', 'color: yellow;', event.key);
+        }
+      });
+    </script>
+
+    <h4>Fixed Example</h4>
+    <p>Use the <code>isComposing</code> property to decide if preventing default actions is safe.</p>
+    <input type="text" id="keyEventFix" placeholder="Type here...">
+    <script>
+      document.getElementById('keyEventFix').addEventListener('keydown', function (event) {
+        if (!event.isComposing && event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
+          // Prevent the default action for letter keydown events
+          event.preventDefault();
+          console.log('%cKeydown event prevented:', 'color: yellow;', event.key);
+        } else {
+          console.log('%cIME is composing or non-letter key, keydown event not prevented:', 'color: yellow;', event.key);
+        }
+      });
+
+      document.getElementById('keyEventFix').addEventListener('keyup', function (event) {
+        if (!event.isComposing && event.key.length === 1 && event.key.match(/[a-zA-Z]/)) {
+          // Manually insert the character into the input field for letter keyup events
+          const inputField = event.target;
+          inputField.value += event.key;
+          console.log('%cKeyup event handled:', 'color: yellow;', event.key);
+        } else {
+          console.log('%cIME is composing or non-letter key, keyup event not handled:', 'color: yellow;', event.key);
+        }
+      });
+    </script>
+  </div>
+
+
+  <div id="tab2" class="tab-content">
+    <h3>Input Event Interception</h3>
+    <h4>Breaking Example</h4>
+    <p>Modifying the input field's value directly in response to input events can interfere with IME operations.</p>
+    <input type="text" id="inputEventBreak" placeholder="Type here...">
+    <script>
+      document.getElementById('inputEventBreak').addEventListener('input', function (event) {
+        const inputField = event.target;
+        inputField.value = inputField.value.toUpperCase();
+        console.log('%cInput event intercepted and modified:', 'color: yellow;', inputField.value);
+      });
+    </script>
+
+    <h4>Fixed Example</h4>
+    <p>Use the <code>isComposing</code> property to decide if modifying the input field's value is safe.</p>
+    <input type="text" id="inputEventFix" placeholder="Type here...">
+    <script>
+      document.getElementById('inputEventFix').addEventListener('input', function (event) {
+        const inputField = event.target;
+        if (!event.isComposing) {
+          inputField.value = inputField.value.toUpperCase();
+          console.log('%cInput event handled and modified:', 'color: yellow;', inputField.value);
+        } else {
+          console.log('%cIME is composing, input event not modified:', 'color: yellow;', inputField.value);
+        }
+      });
+    </script>
+  </div>
+
+
+  <div id="tab3" class="tab-content">
+    <h3>Focus and Blur</h3>
+    <h4>Breaking Example</h4>
+    <p>Switching focus between input fields (or blurring) can disrupt IME operations.</p>
+    <input type="text" id="focusSwitchBreak1" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchBreak2" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchBreak3" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchBreak4" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchBreak5" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchBreak6" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <script>
+      const breakInputs = [
+        'focusSwitchBreak1',
+        'focusSwitchBreak2',
+        'focusSwitchBreak3',
+        'focusSwitchBreak4',
+        'focusSwitchBreak5',
+        'focusSwitchBreak6'
+      ];
+
+      breakInputs.forEach((id, index) => {
+        document.getElementById(id).addEventListener('keyup', function (event) {
+          // Remove all characters except the first one
+          const inputField = event.target;
+          inputField.value = inputField.value.charAt(0);
+
+          // Switch focus to the next input field
+          const nextIndex = (index + 1) % breakInputs.length;
+          document.getElementById(breakInputs[nextIndex]).focus();
+          console.log(`Focus switched to ${breakInputs[nextIndex]}`);
+        });
+      });
+    </script>
+
+    <h4>Fixed Example</h4>
+    <p>Use the <code>isComposing</code> property to decide if focus change is safe.</p>
+    <input type="text" id="focusSwitchFix1" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchFix2" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchFix3" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchFix4" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchFix5" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <input type="text" id="focusSwitchFix6" maxlength="1"
+      style="width: 20px; text-align: center; vertical-align: middle;">
+    <script>
+      const fixInputs = [
+        'focusSwitchFix1',
+        'focusSwitchFix2',
+        'focusSwitchFix3',
+        'focusSwitchFix4',
+        'focusSwitchFix5',
+        'focusSwitchFix6'
+      ];
+
+      fixInputs.forEach((id, index) => {
+        document.getElementById(id).addEventListener('keyup', function (event) {
+          if (!event.isComposing) {
+            // Remove all characters except the first one
+            const inputField = event.target;
+            inputField.value = inputField.value.charAt(0);
+
+            // Switch focus to the next input field
+            const nextIndex = (index + 1) % fixInputs.length;
+            document.getElementById(fixInputs[nextIndex]).focus();
+            console.log(`Focus switched to ${fixInputs[nextIndex]} after keyup:`, event.key);
+          } else {
+            console.log('%cIME is composing, keyup event not handled:', 'color: yellow;', event.key);
+          }
+        });
+      });
+    </script>
+  </div>
+
+
+  <div id="tab5" class="tab-content">
+    <h3>ContentEditable Elements</h3>
+    <h4>Breaking Example</h4>
+    <p>Similar to input fields, handling events on contenteditable elements can interfere with IME operations.</p>
+    <div class="editable" contenteditable="true" id="editableElementBreak"></div>
+    <script>
+      document.getElementById('editableElementBreak').addEventListener('input', function (event) {
+        const editableElement = event.target;
+        // Modify the content directly in response to input events
+        editableElement.innerHTML = editableElement.innerHTML.toUpperCase();
+        console.log('%cInput event intercepted and modified:', 'color: yellow;', editableElement.innerHTML);
+      });
+    </script>
+
+    <h4>Fixed Example</h4>
+    <p>Use the <code>isComposing</code> property to decide if modifying the element's value is safe.</p>
+    <div class="editable" contenteditable="true" id="editableElementFix"></div>
+    <script>
+      document.getElementById('editableElementFix').addEventListener('input', function (event) {
+        const editableElement = event.target;
+        if (!event.isComposing) {
+          // Modify the content directly in response to input events
+          editableElement.innerHTML = editableElement.innerHTML.toUpperCase();
+          console.log('%cInput event intercepted and modified:', 'color: yellow;', editableElement.innerHTML);
+        } else {
+          console.log('%cIME is composing, input event not modified:', 'color: yellow;', editableElement.innerHTML);
+        }
+      });
+    </script>
+  </div>
+
+  <div id="tab6" class="tab-content">
+    <h3>CSS Styling</h3>
+    <h4>Breaking Example</h4>
+    <p>Switching focus between input fields (or blurring) can disrupt IME operations.</p>
+    <input type="text" id="cssStylingBreak" placeholder="Type here...">
+    <script>
+      document.getElementById('cssStylingBreak').addEventListener('keyup', function (event) {
+        // Change the display property to hide the input field
+        event.target.classList.add('hidden');
+        setTimeout(() => {
+          event.target.classList.remove('hidden');
+        }, 2000);
+        console.log('%cInput field hidden on keyup:', 'color: yellow;', event.key);
+      });
+    </script>
+
+    <h4>Fixed Example</h4>
+    <p>Use the <code>isComposing</code> property to decide if focus change is safe.</p>
+    <input type="text" id="cssStylingFix" placeholder="Type here...">
+    <script>
+      document.getElementById('cssStylingFix').addEventListener('keyup', function (event) {
+        if (!event.isComposing) {
+          // Change the display property to hide the input field
+          event.target.classList.add('hidden');
+          setTimeout(() => {
+            event.target.classList.remove('hidden');
+          }, 2000);
+          console.log('%cInput field hidden on keyup:', 'color: yellow;', event.key);
+        } else {
+          console.log('%cIME is composing, keyup event not handled:', 'color: yellow;', event.key);
+        }
+      });
+    </script>
+  </div>
+
+  <div id="tab7" class="tab-content">
+    <h3>Form Validation</h3>
+    <h4>Breaking Example</h4>
+    <p>Forcing valid input can break an IME. In this example, the field only allows letters and numbers to be typed.</p>
+    <input type="text" id="validationBreak" placeholder="Type here...">
+
+    <script>
+      document.getElementById('validationBreak').addEventListener('input', function (event) {
+        const inputField = event.target;
+
+        // Real-time validation that modifies the input field's value
+        const originalValue = inputField.value;
+        inputField.value = inputField.value.replace(/[^a-zA-Z0-9]/g, '');
+        if (originalValue !== inputField.value) {
+          const message = document.createElement('p');
+          message.textContent = 'Invalid characters removed';
+          message.style.color = 'red';
+          inputField.parentNode.insertBefore(message, inputField.nextSibling);
+          setTimeout(() => message.remove(), 2000);
+        }
+        console.log('%cInput event validated and modified:', 'color: yellow;', inputField.value);
+      });
+    </script>
+
+    <h4>Fixed Example</h4>
+    <p>Use the <code>isComposing</code> property to decide if the validation is safe. In addition, run the validation on
+      the <code>compositionend</code> event.</p>
+    <input type="text" id="validationFix" placeholder="Type here...">
+
+    <script>
+      document.getElementById('validationFix').addEventListener('input', function (event) {
+        const inputField = event.target;
+
+        if (!event.isComposing) {
+          // Real-time validation that modifies the input field's value
+          const originalValue = inputField.value;
+          inputField.value = inputField.value.replace(/[^a-zA-Z0-9]/g, '');
+          if (originalValue !== inputField.value) {
+            const message = document.createElement('p');
+            message.textContent = 'Invalid characters removed';
+            message.style.color = 'red';
+            inputField.parentNode.insertBefore(message, inputField.nextSibling);
+            setTimeout(() => message.remove(), 2000);
+          }
+          console.log('%cInput event validated and modified:', 'color: yellow;', inputField.value);
+        } else {
+          console.log('%cIME is composing, input event not modified:', 'color: yellow;', inputField.value);
+        }
+      });
+      document.getElementById('validationFix').addEventListener('compositionend', function (event) {
+        const inputField = event.target;
+
+        // Real-time validation that modifies the input field's value
+        const originalValue = inputField.value;
+        inputField.value = inputField.value.replace(/[^a-zA-Z0-9]/g, '');
+        if (originalValue !== inputField.value) {
+          const message = document.createElement('p');
+          message.textContent = 'Invalid characters removed';
+          message.style.color = 'red';
+          inputField.parentNode.insertBefore(message, inputField.nextSibling);
+          setTimeout(() => message.remove(), 2000);
+        }
+        console.log('%cInput event validated and modified:', 'color: yellow;', inputField.value);
+      });
+    </script>
+  </div>
+  <div id="tab8" class="tab-content">
+    <h3>Dynamic Analysis Detection</h3>
+    <p>This handler contains <code>isComposing</code> in the code, so static analysis won't flag it.
+      However, it clears the input DURING composition, breaking the IME.</p>
+    <input type="text" id="clearsOnComposing" placeholder="Type here...">
+    <script>
+      document.getElementById('clearsOnComposing').addEventListener('input', function (event) {
+        const inputField = event.target;
+        // BUG: Logic is inverted! Should be "if (!event.isComposing)" 
+        if (event.isComposing) {
+          // This clears the composition text, breaking IME
+          inputField.value = '';
+          console.log('%cBroken: Cleared value DURING composition', 'color: red;');
+        }
+      });
+    </script>
+  </div>
+
+  <script>
+    function showTab(tabId) {
+      var tabs = document.getElementsByClassName('tab');
+      var contents = document.getElementsByClassName('tab-content');
+
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active-tab');
+      }
+
+      for (var i = 0; i < contents.length; i++) {
+        contents[i].classList.remove('active-content');
+      }
+
+      document.querySelector('.tab[onclick="showTab(\'' + tabId + '\')"]').classList.add('active-tab');
+      document.getElementById(tabId).classList.add('active-content');
+    }
+
+    // Show the first tab by default
+    showTab('tab1');
+  </script>
+
+  <h2>Best Practices</h2>
+  <p>To ensure IME functionality is preserved, developers should:</p>
+  <ul>
+    <li>Avoid excessive manipulation of key events and input values.</li>
+    <li>Manage focus changes carefully.</li>
+    <li>Test input fields with IMEs for the target languages.</li>
+    <li>Use standard input elements and avoid unnecessary customizations.</li>
+    <li>Ensure compatibility with third-party libraries and frameworks.</li>
+  </ul>
+
+  <h2>Simulation</h2>
+  <p>Events dispatched from code are considered untrusted and they will not display in the input or cause other events
+    to be dispatched. Because of this, it is not possible to test fields for IME handling.</p>
+  <p>Open the console and type "S-U-&lt;Enter&gt;" in the field below. Try again with a Japanese IME, toggling the
+    checkbox to show the different behaviors. Then click the <b>Simulate</b> button to simulate the same events with
+    scripting, also toggling the checkbox to show different behaviors.</p>
+  <p>Other than the letters not appearing in the fields, the <code>selectionchanged</code> event does not fire. That is
+    a secondary event that only happens when trusted input events are dispatched for the field.</p>
+
+  <div id="simulation-panel">
+    <p>Reusing the example of input event interception from above, this fields is receiving the same events in the same
+      order.</p>
+
+    <div>
+      <input type="checkbox" id="breakIME" checked>
+      <label for="breakIME">Break IME?</label>
+    </div>
+    <input type="text" id="simInput" placeholder="Type here...">
+    <script>
+      document.getElementById('simInput').addEventListener('input', function (event) {
+        const inputField = event.target;
+        const breakIME = document.getElementById('breakIME').checked;
+
+        if (breakIME || !event.isComposing) {
+          inputField.value = inputField.value.toUpperCase();
+          console.log(`%cInput event intercepted and modified: ${inputField.value.length ? inputField.value : '<empty>'}`, 'color: yellow');
+        } else {
+          console.log(`%cIME is composing, input event not modified: ${inputField.value.length ? inputField.value : '<empty>'}`, 'color: yellow;');
+        }
+      });
+    </script>
+
+    <div>
+      <button id="simRunner">Simulate</button>
+    </div>
+    <script>
+      async function play(eventList, element, forceFocus = true) {
+        if (forceFocus) element.focus();
+        for (let event of eventList) {
+          if (typeof event === "string") {
+            let eventKey = event;
+            event = eventLibrary[eventKey];
+            if (!event) {
+              console.error("Unknown event key", eventKey);
+              continue;
+            }
+          }
+          if (Array.isArray(event)) {
+            play(event, element, false);
+          } else {
+            await dispatch(event, element);
+          }
+        }
+      }
+
+      async function dispatch(event, element) {
+        if (event.delay) {
+          await new Promise(resolve => setTimeout(resolve, event.delay));
+        }
+
+        switch (event.name) {
+          case "KeyboardEvent":
+            element.dispatchEvent(new KeyboardEvent(event.type, event));
+            break;
+          case "InputEvent":
+            element.dispatchEvent(new InputEvent(event.type, event));
+            break;
+          case "CompositionEvent":
+            element.dispatchEvent(new CompositionEvent(event.type, event));
+            break;
+          default:
+            console.error("Unknown event type", event);
+        }
+      }
+
+      // Simulate entering suzuki yoko in both fields through key, composition, and input events
+      const simInput = document.getElementById('simInput');
+      const events = [
+        { name: 'KeyboardEvent', type: 'keydown', key: 's' },
+        { name: 'KeyboardEvent', type: 'keypress', key: 's' },
+        { name: 'InputEvent', type: 'beforeinput', data: 's' },
+        { name: 'InputEvent', type: 'input', data: 's' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 's' },
+
+        { name: 'KeyboardEvent', type: 'keydown', key: 'u', delay: 300 },
+        { name: 'KeyboardEvent', type: 'keypress', key: 'u' },
+        { name: 'InputEvent', type: 'beforeinput', data: 'u' },
+        { name: 'InputEvent', type: 'input', data: 'u' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 'u' },
+
+        { name: 'KeyboardEvent', type: 'keydown', key: 'z', delay: 300 },
+        { name: 'KeyboardEvent', type: 'keypress', key: 'z' },
+        { name: 'InputEvent', type: 'beforeinput', data: 'z' },
+        { name: 'InputEvent', type: 'input', data: 'z' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 'z' },
+
+        { name: 'KeyboardEvent', type: 'keydown', key: 'u', delay: 300 },
+        { name: 'KeyboardEvent', type: 'keypress', key: 'u' },
+        { name: 'InputEvent', type: 'beforeinput', data: 'u' },
+        { name: 'InputEvent', type: 'input', data: 'u' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 'u' },
+
+        { name: 'KeyboardEvent', type: 'keydown', key: 'k', delay: 300 },
+        { name: 'KeyboardEvent', type: 'keypress', key: 'k' },
+        { name: 'InputEvent', type: 'beforeinput', data: 'k' },
+        { name: 'InputEvent', type: 'input', data: 'k' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 'k' },
+
+        { name: 'KeyboardEvent', type: 'keydown', key: 'i', delay: 300 },
+        { name: 'KeyboardEvent', type: 'keypress', key: 'i' },
+        { name: 'InputEvent', type: 'beforeinput', data: 'i' },
+        { name: 'InputEvent', type: 'input', data: 'i' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 'i' }
+      ];
+
+      const eventsForIME = [
+        { name: 'KeyboardEvent', type: 'keydown', key: 's' },
+        { name: 'CompositionEvent', type: 'compositionstart', data: '' },
+        { name: 'CompositionEvent', type: 'compositionupdate', data: 's' },
+        { name: 'InputEvent', type: 'beforeinput', inputType: 'insertCompositionText', isComposing: true, data: 's' },
+        { name: 'InputEvent', type: 'input', inputType: 'insertCompositionText', isComposing: true, data: 's' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 's', isComposing: true },
+
+        { name: 'KeyboardEvent', type: 'keydown', key: 'u', isComposing: true, delay: 300 },
+        { name: 'CompositionEvent', type: 'compositionupdate', data: 'す' },
+        { name: 'InputEvent', type: 'beforeinput', inputType: 'insertCompositionText', isComposing: true, data: 'す' },
+        { name: 'InputEvent', type: 'input', inputType: 'insertCompositionText', isComposing: true, data: 'す' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 'u', isComposing: true },
+
+        { name: 'KeyboardEvent', type: 'keydown', key: 'Enter', isComposing: true, delay: 300 },
+        { name: 'CompositionEvent', type: 'compositionupdate', data: 'す' },
+        { name: 'InputEvent', type: 'beforeinput', inputType: 'insertFromComposition', isComposing: true, data: 'す' },
+        { name: 'InputEvent', type: 'input', inputType: 'insertFromComposition', isComposing: true, data: 'す' },
+        { name: 'CompositionEvent', type: 'compositionend', data: 'す' },
+        { name: 'KeyboardEvent', type: 'keyup', key: 'Enter', isComposing: false }
+
+        // Comment out the previous block and uncomment the following to type "suzuki"
+
+        // { name: 'KeyboardEvent', type: 'keydown', key: 'z', isComposing: true, delay: 300 },
+        // { name: 'CompositionEvent', type: 'compositionupdate', data: 'すz' },
+        // { name: 'InputEvent', type: 'beforeinput', inputType: 'insertCompositionText', isComposing: true, data: 'すz' },
+        // { name: 'InputEvent', type: 'input', inputType: 'insertCompositionText', isComposing: true, data: 'すz' },
+        // { name: 'KeyboardEvent', type: 'keyup', key: 'z', isComposing: true },
+
+        // { name: 'KeyboardEvent', type: 'keydown', key: 'u', isComposing: true, delay: 300 },
+        // { name: 'CompositionEvent', type: 'compositionupdate', data: 'すず' },
+        // { name: 'InputEvent', type: 'beforeinput', inputType: 'insertCompositionText', isComposing: true, data: 'すず' },
+        // { name: 'InputEvent', type: 'input', inputType: 'insertCompositionText', isComposing: true, data: 'すず' },
+        // { name: 'KeyboardEvent', type: 'keyup', key: 'u', isComposing: true },
+
+        // { name: 'KeyboardEvent', type: 'keydown', key: 'k', isComposing: true, delay: 300 },
+        // { name: 'CompositionEvent', type: 'compositionupdate', data: 'すずk' },
+        // { name: 'InputEvent', type: 'beforeinput', inputType: 'insertCompositionText', isComposing: true, data: 'すずk' },
+        // { name: 'InputEvent', type: 'input', inputType: 'insertCompositionText', isComposing: true, data: 'すずk' },
+        // { name: 'KeyboardEvent', type: 'keyup', key: 'k', isComposing: true },
+
+        // { name: 'KeyboardEvent', type: 'keydown', key: 'i', isComposing: true, delay: 300 },
+        // { name: 'CompositionEvent', type: 'compositionupdate', data: '寿木' },
+        // { name: 'InputEvent', type: 'beforeinput', inputType: 'insertCompositionText', isComposing: true, data: '寿木' },
+        // { name: 'InputEvent', type: 'input', inputType: 'insertCompositionText', isComposing: true, data: '寿木' },
+        // { name: 'KeyboardEvent', type: 'keyup', key: 'i', isComposing: true },
+
+        // { name: 'KeyboardEvent', type: 'keydown', key: 'Enter', isComposing: true, delay: 300 },
+        // { name: 'CompositionEvent', type: 'compositionupdate', data: '寿木' },
+        // { name: 'InputEvent', type: 'beforeinput', inputType: 'insertFromComposition', isComposing: true, data: '寿木' },
+        // { name: 'InputEvent', type: 'input', inputType: 'insertFromComposition', isComposing: true, data: '寿木' },
+        // { name: 'CompositionEvent', type: 'compositionend', data: '寿木' },
+        // { name: 'KeyboardEvent', type: 'keyup', key: 'Enter', isComposing: false }
+      ];
+
+      async function runSimulations() {
+        simInput.value = '';
+        await play(eventsForIME, simInput);
+      }
+
+      document.getElementById('simRunner').addEventListener('click', (element) => {
+        element.target.disabled = true;
+        runSimulations().then(() => {
+          element.target.disabled = false;
+        });
+      });
+
+      function logEventToConsole(e) {
+        const value = e.key || e.data || '';
+        console.log(`${e.target.id}: ${e.type} ${value ? '(' + value + ')' : ''}`);
+        console.debug(e);
+      };
+
+      const EVENTS_TO_IGNORE = ['mouse', 'pointer', 'click', 'drag', 'drop'];
+      const textInputs = document.querySelectorAll('input[type="text"], .editable');
+      textInputs.forEach(input => {
+        input.addEventListener('focus', (event) => {
+          for (const key in event.target) {
+            if (key.startsWith('on')) {
+              if (EVENTS_TO_IGNORE.every(pattern => key.indexOf(pattern) === -1)) {
+                event.target.addEventListener(key.slice(2), logEventToConsole);
+              }
+            }
+          }
+          ['compositionstart', 'compositionupdate', 'compositionend']
+            .forEach(function (e) {
+              event.target.addEventListener(e, logEventToConsole);
+            });
+        });
+
+        input.addEventListener('blur', (event) => {
+          for (const key in event.target) {
+            if (key.startsWith('on')) {
+              if (EVENTS_TO_IGNORE.every(pattern => key.indexOf(pattern) === -1)) {
+                event.target.removeEventListener(key.slice(2), logEventToConsole);
+              }
+            }
+          }
+          ['compositionstart', 'compositionupdate', 'compositionend']
+            .forEach(function (e) {
+              event.target.addEventListener(e, logEventToConsole);
+            });
+        });
+      });
+
+    </script>
+    <p>
+    <table>
+      <thead>
+        <tr>
+          <th>Japanese when IME is working</th>
+          <th>Japanese when IME is broken</th>
+          <th>Simulated Japanese when IME is broken</th>
+          <th>Simulated Japanese when IME is working</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            keydown (s) <br />
+            compositionstart <br />
+            compositionupdate (s) <br />
+            beforeinput (s) <br />
+            <span class="secondary-event">IME is composing, input event not modified: s</span> <br />
+            input (s) <br />
+            selectionchange <br />
+            keyup (s) <br />
+            keydown (u) <br />
+            compositionupdate (す) <br />
+            beforeinput (す) <br />
+            <span class="secondary-event">IME is composing, input event not modified: す</span> <br />
+            input (す) <br />
+            selectionchange <br />
+            keyup (u) <br />
+            keydown (Enter) <br />
+            compositionupdate (す) <br />
+            beforeinput (す) <br />
+            <span class="secondary-event">IME is composing, input event not modified: す</span> <br />
+            input (す) <br />
+            compositionend (す) <br />
+            selectionchange <br />
+            keyup (Enter) <br />
+          </td>
+          <td>
+            keydown (s) <br />
+            compositionstart <br />
+            compositionupdate (s) <br />
+            beforeinput (s) <br />
+            <span class="secondary-event">Input event intercepted and modified: S</span> <br />
+            input (s) <br />
+            selectionchange <br />
+            keyup (s) <br />
+            keydown (u) <br />
+            <span class="diff-event">compositionstart</span> <br />
+            compositionupdate (う) <br />
+            beforeinput (う) <br />
+            <span class="secondary-event">Input event intercepted and modified: Sう</span> <br />
+            input (う) <br />
+            <span class="diff-event">selectionchange</span> <br />
+            keyup (u) <br />
+            keydown (Enter) <br />
+            compositionupdate (う) <br />
+            beforeinput (う) <br />
+            <span class="secondary-event">Input event intercepted and modified: Sう</span> <br />
+            input (う) <br />
+            compositionend (う) <br />
+            <span class="diff-event">selectionchange</span> <br />
+            keyup (Enter) <br />
+          </td>
+          <td>
+            keydown (s) <br />
+            compositionstart <br />
+            compositionupdate (s) <br />
+            beforeinput (s) <br />
+            <span class="secondary-event">Input event intercepted and modified: &lt;empty&gt;</span> <br />
+            input (s) <br />
+            keyup (s) <br />
+            selectionchange <br />
+            keydown (u) <br />
+            compositionupdate (す) <br />
+            beforeinput (す) <br />
+            <span class="secondary-event">Input event intercepted and modified: &lt;empty&gt;</span> <br />
+            input (す) <br />
+            keyup (u) <br />
+            keydown (Enter) <br />
+            compositionupdate (す) <br />
+            beforeinput (す) <br />
+            <span class="secondary-event">Input event intercepted and modified: &lt;empty&gt;</span> <br />
+            input (す) <br />
+            compositionend (す) <br />
+            keyup (Enter) <br />
+          </td>
+          <td>
+            keydown (s) <br />
+            compositionstart <br />
+            compositionupdate (s) <br />
+            beforeinput (s) <br />
+            <span class="secondary-event">IME is composing, input event not modified: &lt;empty&gt;</span> <br />
+            input (s) <br />
+            keyup (s) <br />
+            selectionchange <br />
+            keydown (u) <br />
+            compositionupdate (す) <br />
+            beforeinput (す) <br />
+            <span class="secondary-event">IME is composing, input event not modified: &lt;empty&gt;</span> <br />
+            input (す) <br />
+            keyup (u) <br />
+            keydown (Enter) <br />
+            compositionupdate (す) <br />
+            beforeinput (す) <br />
+            <span class="secondary-event">IME is composing, input event not modified: &lt;empty&gt;</span> <br />
+            input (す) <br />
+            compositionend (す) <br />
+            keyup (Enter) <br />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>For comparison, here are the events when typing in English:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>English when IME is broken</th>
+          <th>English when IME is working</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            keydown (s) <br />
+            keypress (s) <br />
+            beforeinput (s) <br />
+            <span class="secondary-event">Input event intercepted and modified: S</span> <br />
+            input (s) <br />
+            selectionchange <br />
+            keyup (s) <br />
+            keydown (u) <br />
+            keypress (u) <br />
+            beforeinput (u) <br />
+            <span class="secondary-event">Input event intercepted and modified: SU</span> <br />
+            input (u) <br />
+            selectionchange <br />
+            keyup (u) <br />
+            keydown (Enter) <br />
+            keypress (Enter) <br />
+            beforeinput <br />
+            change <br />
+            keyup (Enter) <br />
+          </td>
+          <td>
+            keydown (s) <br />
+            keypress (s) <br />
+            beforeinput (s) <br />
+            <span class="secondary-event">Input event intercepted and modified: S</span> <br />
+            input (s) <br />
+            selectionchange <br />
+            keyup (s) <br />
+            keydown (u) <br />
+            keypress (u) <br />
+            beforeinput (u) <br />
+            <span class="secondary-event">Input event intercepted and modified: SU</span> <br />
+            input (u) <br />
+            selectionchange <br />
+            keyup (u) <br />
+            keydown (Enter) <br />
+            keypress (Enter) <br />
+            beforeinput <br />
+            change <br />
+            keyup (Enter) <br />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </p>
+  </div>
+</body>
+
+</html>

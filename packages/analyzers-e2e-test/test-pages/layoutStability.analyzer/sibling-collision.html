@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sibling Collision Test - Layout Stability Analyzer</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        color: #333;
+        border-bottom: 2px solid #ef4444;
+        padding-bottom: 10px;
+      }
+
+      h2 {
+        color: #666;
+        margin-top: 40px;
+      }
+
+      .description {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+      }
+
+      .test-case {
+        border: 1px solid #ddd;
+        padding: 20px;
+        margin: 20px 0;
+        border-radius: 8px;
+        background: #fff;
+      }
+
+      .test-case h3 {
+        margin-top: 0;
+        color: #ef4444;
+      }
+
+      .good {
+        border-color: #22c55e;
+      }
+
+      .good h3 {
+        color: #22c55e;
+      }
+
+      /* ============================================
+       BAD CASES - Should trigger sibling collision
+       ============================================ */
+
+      /* Case 1: Horizontal inline siblings with fixed container */
+      .inline-siblings-fixed {
+        display: flex;
+        width: 300px;
+        background: #fef2f2;
+        padding: 10px;
+        gap: 0;
+      }
+
+      .inline-siblings-fixed .item {
+        background: #fee2e2;
+        padding: 5px 10px;
+        border: 1px solid #fca5a5;
+        white-space: nowrap;
+      }
+
+      /* Case 2: Absolute positioned siblings */
+      .absolute-container {
+        position: relative;
+        height: 60px;
+        background: #fef2f2;
+        padding: 10px;
+      }
+
+      .absolute-container .left {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #fee2e2;
+        padding: 5px 10px;
+        border: 1px solid #fca5a5;
+      }
+
+      .absolute-container .right {
+        position: absolute;
+        left: 150px; /* Fixed position - will collide when left expands */
+        top: 50%;
+        transform: translateY(-50%);
+        background: #fee2e2;
+        padding: 5px 10px;
+        border: 1px solid #fca5a5;
+      }
+
+      /* Case 3: Float-based layout */
+      .float-container {
+        background: #fef2f2;
+        padding: 10px;
+        overflow: hidden;
+      }
+
+      .float-container .float-left {
+        float: left;
+        background: #fee2e2;
+        padding: 5px 10px;
+        border: 1px solid #fca5a5;
+        margin-right: 5px;
+      }
+
+      .float-container .float-right {
+        float: left; /* Both float left - will collide */
+        background: #fee2e2;
+        padding: 5px 10px;
+        border: 1px solid #fca5a5;
+      }
+
+      /* Case 4: Grid with fixed column widths */
+      .grid-fixed {
+        display: grid;
+        grid-template-columns: 100px 100px 100px;
+        gap: 5px;
+        background: #fef2f2;
+        padding: 10px;
+      }
+
+      .grid-fixed .cell {
+        background: #fee2e2;
+        padding: 5px;
+        border: 1px solid #fca5a5;
+        overflow: visible; /* Allow overflow to show collision */
+      }
+
+      /* Case 5: Table cells without proper sizing */
+      .table-fixed {
+        border-collapse: collapse;
+        background: #fef2f2;
+      }
+
+      .table-fixed td {
+        border: 1px solid #fca5a5;
+        padding: 8px;
+        background: #fee2e2;
+        width: 80px; /* Fixed width */
+        white-space: nowrap;
+      }
+
+      /* Case 6: Inline-block siblings */
+      .inline-block-container {
+        background: #fef2f2;
+        padding: 10px;
+        white-space: nowrap;
+        width: 280px;
+      }
+
+      .inline-block-container .inline-item {
+        display: inline-block;
+        background: #fee2e2;
+        padding: 5px 10px;
+        border: 1px solid #fca5a5;
+        margin: 0;
+      }
+
+      /* ============================================
+       GOOD CASES - Should NOT trigger collision
+       ============================================ */
+
+      /* Good Case 1: Flexbox with flex-wrap */
+      .flex-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        background: #f0fdf4;
+        padding: 10px;
+      }
+
+      .flex-wrap .item {
+        background: #dcfce7;
+        padding: 5px 10px;
+        border: 1px solid #86efac;
+      }
+
+      /* Good Case 2: Grid with auto columns */
+      .grid-auto {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+        background: #f0fdf4;
+        padding: 10px;
+      }
+
+      .grid-auto .cell {
+        background: #dcfce7;
+        padding: 5px;
+        border: 1px solid #86efac;
+      }
+
+      /* Good Case 3: Block siblings (natural stacking) */
+      .block-siblings {
+        background: #f0fdf4;
+        padding: 10px;
+      }
+
+      .block-siblings .block-item {
+        background: #dcfce7;
+        padding: 5px 10px;
+        border: 1px solid #86efac;
+        margin-bottom: 5px;
+      }
+
+      /* Good Case 4: Proper spacing between absolute elements */
+      .absolute-spaced {
+        position: relative;
+        height: 60px;
+        background: #f0fdf4;
+        padding: 10px;
+      }
+
+      .absolute-spaced .left {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: #dcfce7;
+        padding: 5px 10px;
+        border: 1px solid #86efac;
+      }
+
+      .absolute-spaced .right {
+        position: absolute;
+        right: 10px; /* Right-anchored, won't collide */
+        top: 50%;
+        transform: translateY(-50%);
+        background: #dcfce7;
+        padding: 5px 10px;
+        border: 1px solid #86efac;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>🔴 Sibling Collision Test Cases</h1>
+
+    <div class="description">
+      <p>
+        <strong>Purpose:</strong> Test detection of elements that collide/overlap with their
+        siblings after text expansion.
+      </p>
+      <p>
+        <strong>How it works:</strong> When text expands (pseudolocalization), elements may grow and
+        start overlapping with adjacent siblings, breaking the layout.
+      </p>
+    </div>
+
+    <h2>❌ Bad Cases (Should Detect Collision)</h2>
+
+    <div class="test-case" data-testid="inline-siblings-fixed">
+      <h3>1. Inline Siblings in Fixed Container</h3>
+      <p>Flex items without wrap in a fixed-width container will collide when text expands.</p>
+      <div class="inline-siblings-fixed">
+        <span class="item">First Item</span>
+        <span class="item">Second Item</span>
+        <span class="item">Third</span>
+      </div>
+    </div>
+
+    <div class="test-case" data-testid="absolute-positioned">
+      <h3>2. Absolute Positioned Siblings</h3>
+      <p>
+        Left element at fixed position, right element also at fixed left position. Will collide.
+      </p>
+      <div class="absolute-container">
+        <span class="left">Username</span>
+        <span class="right">Settings</span>
+      </div>
+    </div>
+
+    <div class="test-case" data-testid="float-siblings">
+      <h3>3. Float-Based Layout</h3>
+      <p>Floated elements with tight spacing will overlap when expanded.</p>
+      <div class="float-container">
+        <span class="float-left">Category</span>
+        <span class="float-right">Subcategory</span>
+      </div>
+    </div>
+
+    <div class="test-case" data-testid="grid-fixed">
+      <h3>4. Grid with Fixed Column Widths</h3>
+      <p>Grid cells with fixed widths and visible overflow - content spills into neighbors.</p>
+      <div class="grid-fixed">
+        <div class="cell">Column One</div>
+        <div class="cell">Column Two</div>
+        <div class="cell">Three</div>
+      </div>
+    </div>
+
+    <div class="test-case" data-testid="table-fixed">
+      <h3>5. Table with Fixed Cell Widths</h3>
+      <p>Table cells with fixed widths and nowrap - text overlaps adjacent cells.</p>
+      <table class="table-fixed">
+        <tr>
+          <td>Product</td>
+          <td>Description</td>
+          <td>Price</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="test-case" data-testid="inline-block">
+      <h3>6. Inline-Block Siblings</h3>
+      <p>Inline-block elements in narrow container without wrapping.</p>
+      <div class="inline-block-container">
+        <span class="inline-item">Home</span>
+        <span class="inline-item">Products</span>
+        <span class="inline-item">Contact</span>
+      </div>
+    </div>
+
+    <h2>✅ Good Cases (Should NOT Detect Collision)</h2>
+
+    <div class="test-case good" data-testid="flex-wrap">
+      <h3>1. Flexbox with Wrap</h3>
+      <p>Items can wrap to next line, preventing collision.</p>
+      <div class="flex-wrap">
+        <span class="item">First Item</span>
+        <span class="item">Second Item</span>
+        <span class="item">Third Item</span>
+      </div>
+    </div>
+
+    <div class="test-case good" data-testid="grid-auto">
+      <h3>2. Grid with Auto Columns</h3>
+      <p>Columns adjust automatically based on content.</p>
+      <div class="grid-auto">
+        <div class="cell">Column One</div>
+        <div class="cell">Column Two</div>
+        <div class="cell">Column Three</div>
+      </div>
+    </div>
+
+    <div class="test-case good" data-testid="block-siblings">
+      <h3>3. Block Siblings (Natural Stacking)</h3>
+      <p>Block elements stack vertically, no horizontal collision possible.</p>
+      <div class="block-siblings">
+        <div class="block-item">First Block</div>
+        <div class="block-item">Second Block</div>
+        <div class="block-item">Third Block</div>
+      </div>
+    </div>
+
+    <div class="test-case good" data-testid="absolute-spaced">
+      <h3>4. Properly Spaced Absolute Elements</h3>
+      <p>Left anchored to left, right anchored to right - they have room to grow.</p>
+      <div class="absolute-spaced">
+        <span class="left">Username</span>
+        <span class="right">Settings</span>
+      </div>
+    </div>
+  </body>
+</html>

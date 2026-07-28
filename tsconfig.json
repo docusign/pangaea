@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "moduleResolution": "bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": false,
+    "incremental": false,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowImportingTsExtensions": false,
+    "verbatimModuleSyntax": true,
+    "paths": {
+      "@pangaea/core": ["./packages/core/src"],
+      "@pangaea/core/*": ["./packages/core/src/*"],
+      "@core/*": ["./packages/core/src/*"],
+      "@analyzers/*": ["./packages/core/src/analyzers/*"],
+      "@types/*": ["./packages/core/src/types/*"]
+    }
+  }
+}

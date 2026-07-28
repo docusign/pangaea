@@ -1,0 +1,55 @@
+{
+  "name": "@pangaea/playwright",
+  "version": "0.4.1",
+  "description": "Playwright plugin for the Globalization Audit Tool",
+  "license": "MIT",
+  "author": "Docusign, Inc.",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./pangea-reporter": {
+      "types": "./dist/pangeaReporter.d.ts",
+      "import": "./dist/pangeaReporter.js",
+      "require": "./dist/pangeaReporter.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prebuild": "yarn clean",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage --passWithNoTests",
+    "check-types": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist coverage .turbo .tsbuildinfo"
+  },
+  "peerDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-logs-otlp-http": "^0.221.0",
+    "@opentelemetry/resources": "^2.10.0",
+    "@opentelemetry/sdk-logs": "^0.221.0",
+    "@pangaea/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@types/node": "^22.10.1",
+    "typescript": "^5.7.2"
+  }
+}

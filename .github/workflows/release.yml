@@ -1,0 +1,59 @@
+# SPDX-FileCopyrightText: 2026 Docusign, Inc.
+# SPDX-License-Identifier: MIT
+
+# Publishes packages to npm using Changesets.
+#
+# On every push to main, this either:
+#   - opens/updates a "Version Packages" PR that applies pending changesets, or
+#   - if such a PR was just merged, publishes the bumped packages to npm.
+#
+# Requirements before enabling:
+#   - Set the NPM_TOKEN secret (automation token for the publishing npm account).
+#   - Confirm the package scope is one Docusign owns on the public npm registry
+#     (packages currently use the `@pangaea/*` scope) and that each publishable
+#     package sets `"publishConfig": { "access": "public" }`.
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+concurrency:
+  group: release-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: yarn
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Create Release PR or publish
+        uses: changesets/action@v1
+        with:
+          publish: yarn release
+          commit: 'chore: release + bump versions'
+          title: 'chore: release + bump versions'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

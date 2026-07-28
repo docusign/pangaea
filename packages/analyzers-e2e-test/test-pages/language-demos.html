@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Language Analyzer - Test Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .section {
+        margin: 20px 0;
+        padding: 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+      h2 { color: #333; }
+    </style>
+  </head>
+  <body>
+    <h1>Language Analyzer Test Page</h1>
+
+    <!-- Correct: English text on an English page -->
+    <div class="section">
+      <h2>English Content (Correct)</h2>
+      <p>This is a completely normal English paragraph that should not be flagged by the language analyzer because it matches the declared page language.</p>
+    </div>
+
+    <!-- Issue: French text on an English page (language-text-mismatch) -->
+    <div class="section">
+      <h2>French Content (Should be flagged)</h2>
+      <p>Ceci est un paragraphe entièrement en français qui devrait être détecté comme un contenu ne correspondant pas à la langue déclarée de la page anglaise.</p>
+    </div>
+
+    <!-- Issue: German text on an English page (language-text-mismatch) -->
+    <div class="section">
+      <h2>German Content (Should be flagged)</h2>
+      <p>Dies ist ein vollständig deutscher Absatz, der als Inhalt erkannt werden sollte, der nicht mit der deklarierten englischen Seitensprache übereinstimmt.</p>
+    </div>
+
+    <!-- Correct: French text with lang override (intentional) -->
+    <div class="section" lang="fr">
+      <h2>French with lang="fr" (Correct - intentional override)</h2>
+      <p>Ce paragraphe est en français mais il est enveloppé dans un élément avec l'attribut lang="fr" donc il ne devrait pas être signalé.</p>
+    </div>
+
+    <!-- Issue: Link to French page (language-link-mismatch) -->
+    <div class="section">
+      <h2>Navigation Links</h2>
+      <ul>
+        <li><a href="/en/about">About (English - correct)</a></li>
+        <li><a href="/fr/about">À propos (French path prefix - should be flagged)</a></li>
+        <li><a href="/de/about">Über uns (German path prefix - should be flagged)</a></li>
+        <li><a href="/about">About (No language signal - correct)</a></li>
+        <li><a href="/page?lang=es">Spanish page via query param (should be flagged)</a></li>
+        <li><a href="/page/fr">French page via path suffix (should be flagged)</a></li>
+        <li><a href="/content/de/details">German page via mid-path segment (should be flagged)</a></li>
+        <li><a href="/page/en">English page via path suffix (correct)</a></li>
+      </ul>
+    </div>
+
+    <!-- Issue: Link with hreflang mismatch -->
+    <div class="section">
+      <h2>Hreflang Links</h2>
+      <a href="/some-page" hreflang="ja">日本語ページ (hreflang mismatch - should be flagged)</a>
+      <br />
+      <a href="/some-page" hreflang="en">English page (hreflang matches - correct)</a>
+    </div>
+
+    <!-- Links: Subdomain language detection -->
+    <div class="section">
+      <h2>Subdomain Links</h2>
+      <ul>
+        <li><a href="https://fr.example.com/page">French subdomain (should be flagged)</a></li>
+      </ul>
+    </div>
+
+    <!-- Links: Should be skipped -->
+    <div class="section">
+      <h2>Non-navigational Links (Should be skipped)</h2>
+      <ul>
+        <li><a href="#section">Fragment link</a></li>
+        <li><a href="mailto:test@example.com">Email link</a></li>
+        <li><a href="javascript:void(0)">JavaScript link</a></li>
+        <li><a href="/fr/styles.css">Asset link (CSS)</a></li>
+        <li><a href="/fr/image.png">Asset link (PNG)</a></li>
+      </ul>
+    </div>
+
+    <!-- Short text (should be skipped by detection) -->
+    <div class="section">
+      <h2>Short Text</h2>
+      <p>OK</p>
+      <p>Oui</p>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collation Issues - Test Page</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #1e293b;
+      }
+
+      h1 {
+        border-bottom: 2px solid #3b82f6;
+        padding-bottom: 8px;
+      }
+
+      h2 {
+        margin-top: 32px;
+        color: #334155;
+      }
+
+      .section {
+        margin: 16px 0;
+        padding: 16px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #f8fafc;
+      }
+
+      .section h3 {
+        margin-top: 0;
+        color: #0f172a;
+      }
+
+      .badge-bad {
+        display: inline-block;
+        background: #fecaca;
+        color: #b91c1c;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 4px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      .badge-good {
+        display: inline-block;
+        background: #bbf7d0;
+        color: #166534;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 2px 8px;
+        border-radius: 4px;
+        margin-left: 6px;
+        vertical-align: middle;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        margin-top: 8px;
+      }
+
+      th,
+      td {
+        border: 1px solid #cbd5e1;
+        padding: 8px 12px;
+        text-align: left;
+      }
+
+      th {
+        background: #e2e8f0;
+      }
+
+      .columns {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Collation Issues Demo Page</h1>
+    <p>
+      This page contains lists, selects, and tables with sort-order issues that the Collation
+      Analyzer should detect. All "Issue" data is in exact <code>Array.sort()</code> (codepoint)
+      order, which differs from locale-aware <code>Intl.Collator</code> order.
+    </p>
+
+    <!-- ================================================================== -->
+    <h2>1. Unsorted Lists ol</h2>
+    <!-- ================================================================== -->
+
+    <div class="columns">
+      <!-- BAD: exact JS .sort() order — accented chars pushed after ASCII -->
+      <div class="section">
+        <h3>Country List <span class="badge-bad">Issue</span></h3>
+        <p>In <code>.sort()</code> order — Å, Ð, Č pushed to the end.</p>
+        <ol>
+          <li>Algeria</li>
+          <li>Argentina</li>
+          <li>Austria</li>
+          <li>Belgium</li>
+          <li>Czech Republic</li>
+          <li>Côte d'Ivoire</li>
+          <li>Denmark</li>
+          <li>Estonia</li>
+          <li>France</li>
+          <li>Ångström Island</li>
+          <li>Ðjibouti</li>
+          <li>Česká republika</li>
+        </ol>
+      </div>
+
+      <!-- GOOD: properly locale-sorted -->
+      <div class="section">
+        <h3>Fruit List <span class="badge-good">OK</span></h3>
+        <p>Correctly locale-sorted (en-US).</p>
+        <ul>
+          <li>Apple</li>
+          <li>Banana</li>
+          <li>Cherry</li>
+          <li>Date</li>
+          <li>Elderberry</li>
+          <li>Fig</li>
+          <li>Grape</li>
+          <li>Honeydew</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- BAD: Spanish names in JS .sort() order — Á and Ñ displaced -->
+    <div class="section">
+      <h3>Spanish Names <span class="badge-bad">Issue</span></h3>
+      <p>In <code>.sort()</code> order — Á pushed after P, Ñ after all ASCII.</p>
+      <ol lang="es">
+        <li>Benítez</li>
+        <li>García</li>
+        <li>López</li>
+        <li>Muñoz</li>
+        <li>Navarro</li>
+        <li>Núñez</li>
+        <li>Ortega</li>
+        <li>Peña</li>
+        <li>Álvarez</li>
+        <li>Ñoño</li>
+      </ol>
+    </div>
+
+    <!-- BAD: French notification categories in JS .sort() order -->
+    <div class="section">
+      <h3>Notification Categories <span class="badge-bad">Issue</span></h3>
+      <p>In <code>.sort()</code> order — À and É pushed to the end.</p>
+      <ul>
+        <li>Général</li>
+        <li>Médias</li>
+        <li>Paramètres</li>
+        <li>Réclamations</li>
+        <li>Sécurité</li>
+        <li>Téléchargements</li>
+        <li>À propos</li>
+        <li>Événements</li>
+      </ul>
+    </div>
+
+    <!-- ================================================================== -->
+    <h2>2. Unsorted Selects</h2>
+    <!-- ================================================================== -->
+
+    <div class="columns">
+      <!-- BAD: exact JS .sort() order country select -->
+      <div class="section">
+        <h3>Country Selector <span class="badge-bad">Issue</span></h3>
+        <label for="country-select">Choose a country:</label>
+        <select id="country-select">
+          <option>Algeria</option>
+          <option>Argentina</option>
+          <option>Austria</option>
+          <option>Belgium</option>
+          <option>Czech Republic</option>
+          <option>Côte d'Ivoire</option>
+          <option>Denmark</option>
+          <option>Estonia</option>
+          <option>France</option>
+          <option>Germany</option>
+          <option>Ångström Island</option>
+          <option>Česká republika</option>
+        </select>
+      </div>
+
+      <!-- GOOD: locale-sorted select -->
+      <div class="section">
+        <h3>Language Selector <span class="badge-good">OK</span></h3>
+        <label for="lang-select">Choose a language:</label>
+        <select id="lang-select">
+          <option>Arabic</option>
+          <option>Chinese</option>
+          <option>English</option>
+          <option>French</option>
+          <option>German</option>
+          <option>Hindi</option>
+          <option>Japanese</option>
+          <option>Korean</option>
+          <option>Portuguese</option>
+          <option>Spanish</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- BAD: French cities in JS .sort() order — É pushed to end -->
+    <div class="section">
+      <h3>French Cities <span class="badge-bad">Issue</span></h3>
+      <label for="french-cities">Choisir une ville:</label>
+      <select id="french-cities" lang="fr">
+        <option>Besançon</option>
+        <option>Bordeaux</option>
+        <option>Brest</option>
+        <option>Béziers</option>
+        <option>Caen</option>
+        <option>Grenoble</option>
+        <option>Le Havre</option>
+        <option>Liège</option>
+        <option>Lyon</option>
+        <option>Marseille</option>
+        <option>Nîmes</option>
+        <option>Orléans</option>
+        <option>Paris</option>
+        <option>Strasbourg</option>
+        <option>Toulouse</option>
+        <option>Évreux</option>
+      </select>
+    </div>
+
+    <!-- ================================================================== -->
+    <h2>3. Unsorted Table Columns</h2>
+    <!-- ================================================================== -->
+
+    <!-- BAD: name column in exact JS .sort() order -->
+    <div class="section">
+      <h3>Employee Directory <span class="badge-bad">Issue</span></h3>
+      <p>Name column in <code>.sort()</code> order — Å, Ç, Ö, Ž displaced.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Location</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Adams, John</td>
+            <td>Sales</td>
+            <td>New York</td>
+          </tr>
+          <tr>
+            <td>Baker, Sarah</td>
+            <td>Engineering</td>
+            <td>London</td>
+          </tr>
+          <tr>
+            <td>Clark, David</td>
+            <td>Design</td>
+            <td>Sydney</td>
+          </tr>
+          <tr>
+            <td>Dubois, Marie</td>
+            <td>Marketing</td>
+            <td>Paris</td>
+          </tr>
+          <tr>
+            <td>Evans, Tom</td>
+            <td>Engineering</td>
+            <td>Cardiff</td>
+          </tr>
+          <tr>
+            <td>Fischer, Klaus</td>
+            <td>Finance</td>
+            <td>Frankfurt</td>
+          </tr>
+          <tr>
+            <td>Garcia, Ana</td>
+            <td>Engineering</td>
+            <td>Madrid</td>
+          </tr>
+          <tr>
+            <td>Miller, Hans</td>
+            <td>Finance</td>
+            <td>Berlin</td>
+          </tr>
+          <tr>
+            <td>Müller, Fritz</td>
+            <td>Sales</td>
+            <td>Munich</td>
+          </tr>
+          <tr>
+            <td>Santos, Pedro</td>
+            <td>Marketing</td>
+            <td>Lisbon</td>
+          </tr>
+          <tr>
+            <td>Åberg, Sven</td>
+            <td>Engineering</td>
+            <td>Stockholm</td>
+          </tr>
+          <tr>
+            <td>Çelik, Mehmet</td>
+            <td>Design</td>
+            <td>Istanbul</td>
+          </tr>
+          <tr>
+            <td>Öztürk, Ali</td>
+            <td>Design</td>
+            <td>Ankara</td>
+          </tr>
+          <tr>
+            <td>Žilina, Petr</td>
+            <td>Finance</td>
+            <td>Prague</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- BAD: product column in exact JS .sort() order -->
+    <div class="section">
+      <h3>Product Catalog <span class="badge-bad">Issue</span></h3>
+      <p>Product column in <code>.sort()</code> order — Å, É, Ü displaced.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Artisan Bread</td>
+            <td>$12</td>
+            <td>80</td>
+          </tr>
+          <tr>
+            <td>Basic Toolkit</td>
+            <td>$25</td>
+            <td>150</td>
+          </tr>
+          <tr>
+            <td>Cable Set</td>
+            <td>$18</td>
+            <td>200</td>
+          </tr>
+          <tr>
+            <td>Deluxe Pack</td>
+            <td>$65</td>
+            <td>40</td>
+          </tr>
+          <tr>
+            <td>Express Kit</td>
+            <td>$35</td>
+            <td>90</td>
+          </tr>
+          <tr>
+            <td>French Press</td>
+            <td>$45</td>
+            <td>60</td>
+          </tr>
+          <tr>
+            <td>Gourmet Set</td>
+            <td>$89</td>
+            <td>25</td>
+          </tr>
+          <tr>
+            <td>Naïve Art Set</td>
+            <td>$45</td>
+            <td>30</td>
+          </tr>
+          <tr>
+            <td>Piñata Box</td>
+            <td>$35</td>
+            <td>50</td>
+          </tr>
+          <tr>
+            <td>Résumé Pad</td>
+            <td>$15</td>
+            <td>120</td>
+          </tr>
+          <tr>
+            <td>Ångström Meter</td>
+            <td>$199</td>
+            <td>12</td>
+          </tr>
+          <tr>
+            <td>Éclairs Box</td>
+            <td>$15</td>
+            <td>200</td>
+          </tr>
+          <tr>
+            <td>Über Speaker</td>
+            <td>$149</td>
+            <td>22</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- GOOD: properly locale-sorted table -->
+    <div class="section">
+      <h3>Team Roster <span class="badge-good">OK</span></h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Player</th>
+            <th>Position</th>
+            <th>Number</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Anderson</td>
+            <td>Forward</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td>Brown</td>
+            <td>Midfielder</td>
+            <td>10</td>
+          </tr>
+          <tr>
+            <td>Carter</td>
+            <td>Defender</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td>Davis</td>
+            <td>Goalkeeper</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>Evans</td>
+            <td>Midfielder</td>
+            <td>8</td>
+          </tr>
+          <tr>
+            <td>Foster</td>
+            <td>Forward</td>
+            <td>9</td>
+          </tr>
+          <tr>
+            <td>Green</td>
+            <td>Defender</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>Harris</td>
+            <td>Midfielder</td>
+            <td>6</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

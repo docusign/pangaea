@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+.yarn
+
+# Local / editor
+.claude
+
+# Playwright test artifacts
+test-results
+playwright-report
+
+# Build outputs
+dist
+build
+.next
+out
+coverage
+
+# Turbo
+.turbo
+
+# Logs
+*.log
+
+# Lock files
+yarn.lock
+package-lock.json
+pnpm-lock.yaml
+
+# Generated files
+*.generated.ts
+*.generated.js
+sbom.json
+
+# Changesets
+.changeset

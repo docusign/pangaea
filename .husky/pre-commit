@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# Run lint-staged (will lint and format based on nearest .lintstagedrc.json)
+yarn lint-staged
