@@ -50,9 +50,11 @@ an appointed representative at an online or offline event.
 
 ## Enforcement
 
-Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the community
-leaders responsible for enforcement at [opensource@docusign.com](mailto:opensource@docusign.com).
-All complaints will be reviewed and investigated promptly and fairly.
+Instances of abusive, harassing, or otherwise unacceptable behavior may be reported privately to the
+community leaders responsible for enforcement via
+[GitHub's private reporting](https://github.com/docusign/pangaea/security/advisories/new) ("Report a
+vulnerability" in the repository **Security** tab). All complaints will be reviewed and investigated
+promptly and fairly.
 
 All community leaders are obligated to respect the privacy and security of the reporter of any
 incident.

@@ -14,12 +14,9 @@ version of each published package. We recommend always using the most recent rel
 
 **Please do not report security vulnerabilities through public GitHub issues.**
 
-Instead, report them privately through one of the following channels:
-
-- Use GitHub's
-  [private vulnerability reporting](https://github.com/docusign/pangaea/security/advisories/new)
-  ("Report a vulnerability" in the repository **Security** tab), or
-- Email [opensource@docusign.com](mailto:opensource@docusign.com) with the details.
+Instead, report them privately using GitHub's
+[private vulnerability reporting](https://github.com/docusign/pangaea/security/advisories/new)
+("Report a vulnerability" in the repository **Security** tab).
 
 Please include:
 
