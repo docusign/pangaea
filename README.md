@@ -1,5 +1,8 @@
 # Pangaea
 
+[![CI](https://github.com/docusign/pangaea/actions/workflows/ci.yml/badge.svg)](https://github.com/docusign/pangaea/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 A monorepo of tools for detecting globalization and internationalization (i18n) issues in web
 applications. Provides a Chrome DevTools extension for manual inspection and a Playwright plugin for
 automated CI auditing.

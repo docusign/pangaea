@@ -1,0 +1,33 @@
+# SPDX-FileCopyrightText: 2026 Docusign, Inc.
+# SPDX-License-Identifier: MIT
+
+name: Feature Request
+description: Suggest a new analyzer, check, or improvement
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. Please search
+        [existing issues](https://github.com/docusign/pangaea/issues) first to avoid duplicates.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      description: What globalization/i18n problem would this solve? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the analyzer, check, or change you'd like to see.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Any workarounds or other approaches you've thought about.
+    validations:
+      required: false
