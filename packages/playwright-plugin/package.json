@@ -2,14 +2,37 @@
   "name": "@pangaea/playwright",
   "version": "0.4.1",
   "description": "Playwright plugin for the Globalization Audit Tool",
+  "keywords": [
+    "globalization",
+    "internationalization",
+    "i18n",
+    "l10n",
+    "localization",
+    "playwright",
+    "e2e",
+    "audit"
+  ],
   "license": "MIT",
   "author": "Docusign, Inc.",
+  "homepage": "https://github.com/docusign/pangaea/tree/main/packages/playwright-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/docusign/pangaea.git",
+    "directory": "packages/playwright-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/docusign/pangaea/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.cjs",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "exports": {
     ".": {

@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: 2026 Docusign, Inc.
+# SPDX-License-Identifier: MIT
+
+name: E2E
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: e2e-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: yarn
+
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      # The e2e tests import runAudit from the built @pangaea/playwright package,
+      # which re-exports @pangaea/core, so both must be built first.
+      - name: Build packages
+        run: yarn build --filter=@pangaea/core --filter=@pangaea/playwright
+
+      - name: Install Playwright browsers
+        run: yarn workspace @pangaea/analyzers-e2e-test exec playwright install --with-deps chromium
+
+      # Playwright starts its own static file server (see playwright.config.ts webServer).
+      - name: Run E2E tests
+        run: yarn workspace @pangaea/analyzers-e2e-test test

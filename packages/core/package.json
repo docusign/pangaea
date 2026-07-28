@@ -2,13 +2,36 @@
   "name": "@pangaea/core",
   "version": "0.1.0",
   "description": "Core library for the Globalization Audit Tool",
+  "keywords": [
+    "globalization",
+    "internationalization",
+    "i18n",
+    "l10n",
+    "localization",
+    "rtl",
+    "encoding",
+    "audit"
+  ],
   "license": "MIT",
   "author": "Docusign, Inc.",
+  "homepage": "https://github.com/docusign/pangaea/tree/main/packages/core#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/docusign/pangaea.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/docusign/pangaea/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "LICENSE"
   ],
   "exports": {
     ".": {

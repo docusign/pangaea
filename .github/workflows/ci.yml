@@ -43,7 +43,7 @@ jobs:
         run: yarn format:check
 
       # Excludes the Playwright E2E package, which needs browsers + served
-      # fixtures and runs as a separate workflow (mirrors the prior CI setup).
+      # fixtures and runs in the dedicated E2E workflow (.github/workflows/e2e.yml).
       - name: Test
         run: yarn test --filter=!@pangaea/analyzers-e2e-test
 
