@@ -3,7 +3,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import type { AuditReport, AuditProgress } from '@pangaea/core';
+import type { AuditReport, AuditProgress } from '@pangaea-tools/core';
 import type { AuditMessage } from '../types';
 import { DevToolsService } from '../services/devtoolsService';
 

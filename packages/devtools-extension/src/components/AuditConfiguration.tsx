@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { Button, Checkbox, CheckboxGroup, Heading, Banner, ProgressBar } from '../ui';
-import type { AuditProgress } from '@pangaea/core';
+import type { AuditProgress } from '@pangaea-tools/core';
 
 /**
  * Props for the AuditConfiguration component

@@ -3,7 +3,7 @@
 
 import React from 'react';
 import { StatusBadge } from '../ui';
-import type { Issue, Severity } from '@pangaea/core';
+import type { Issue, Severity } from '@pangaea-tools/core';
 import { ClickableElementSelector } from './ClickableElementSelector';
 
 /**

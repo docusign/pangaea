@@ -1,5 +1,5 @@
 {
-  "name": "@pangaea/extension",
+  "name": "@pangaea-tools/extension",
   "version": "0.1.0",
   "private": true,
   "description": "Chrome Extension for the Globalization Audit Tool",
@@ -31,7 +31,7 @@
     "clean": "rimraf dist coverage .turbo .tsbuildinfo"
   },
   "dependencies": {
-    "@pangaea/core": "workspace:*",
+    "@pangaea-tools/core": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "uuid": "^13.0.0"
