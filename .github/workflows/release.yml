@@ -11,7 +11,7 @@
 #   - Set the NPM_TOKEN secret (automation token for the publishing npm account).
 #   - Confirm the package scope is one Docusign owns on the public npm registry
 #     (packages currently use the `@pangaea-tools/*` scope) and that each publishable
-#     package sets `"publishConfig": { "access": "public" }`.
+#     package sets an appropriate `publishConfig.access` (currently `restricted`).
 name: Release
 
 on:
@@ -57,5 +57,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          # Publish with npm provenance (uses the id-token: write permission above).
-          NPM_CONFIG_PROVENANCE: true
