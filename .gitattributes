@@ -1,0 +1,20 @@
+# Normalize line endings for all text files to LF.
+# This keeps the repo consistent with Prettier's `endOfLine: "lf"` setting and
+# prevents CRLF churn on Windows contributors.
+* text=auto eol=lf
+
+# Ensure Windows-only script files keep CRLF.
+*.bat        text eol=crlf
+*.cmd        text eol=crlf
+*.ps1        text eol=crlf
+
+# Treat these as binary.
+*.png        binary
+*.jpg        binary
+*.jpeg       binary
+*.gif        binary
+*.ico        binary
+*.webp       binary
+*.pdf        binary
+*.woff       binary
+*.woff2      binary
