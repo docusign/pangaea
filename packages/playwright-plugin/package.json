@@ -24,7 +24,7 @@
     "url": "https://github.com/docusign/pangaea/issues"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "restricted"
   },
   "engines": {
     "node": ">=22"
