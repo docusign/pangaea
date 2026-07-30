@@ -8,7 +8,7 @@ import { resourceFromAttributes } from '@opentelemetry/resources';
 import { LoggerProvider, SimpleLogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { SeverityNumber } from '@opentelemetry/api-logs';
 
-import type { AuditReport } from '@pangaea/core';
+import type { AuditReport } from '@pangaea-tools/core';
 
 declare const LIBRARY_VERSION: string;
 
@@ -81,7 +81,7 @@ export async function sendAuditMetrics(
   if (!endpoint) return; // opt-in: no collector configured, so emit nothing
 
   const provider = getLoggerProvider(endpoint);
-  const logger = provider.getLogger('@pangaea/playwright');
+  const logger = provider.getLogger('@pangaea-tools/playwright');
 
   const attributes: Record<string, string | number> = {
     repo_id: getRepoId(),

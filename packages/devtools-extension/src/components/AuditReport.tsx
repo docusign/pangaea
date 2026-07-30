@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import { Button, Heading, Accordion, Meter } from '../ui';
-import type { AuditReport as AuditReportType } from '@pangaea/core';
+import type { AuditReport as AuditReportType } from '@pangaea-tools/core';
 import { IssueTable } from './IssueTable';
 import { useHighlightCleared } from '../hooks/useHighlightCleared';
 

@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 // types.ts
-import type { AuditProgress } from '@pangaea/core';
+import type { AuditProgress } from '@pangaea-tools/core';
 
 export interface AuditMessage {
   source: 'glob-audit-extension';

@@ -1,5 +1,5 @@
 {
-  "name": "@pangaea/analyzers-e2e-test",
+  "name": "@pangaea-tools/analyzers-e2e-test",
   "version": "0.0.8",
   "private": true,
   "type": "module",
@@ -10,8 +10,8 @@
     "test:ui": "playwright test --ui"
   },
   "dependencies": {
-    "@pangaea/core": "workspace:*",
-    "@pangaea/playwright": "workspace:*"
+    "@pangaea-tools/core": "workspace:*",
+    "@pangaea-tools/playwright": "workspace:*"
   },
   "devDependencies": {
     "@playwright/test": "^1.40.0",

@@ -1,5 +1,5 @@
 {
-  "name": "@pangaea/core",
+  "name": "@pangaea-tools/core",
   "version": "0.1.0",
   "description": "Core library for the Globalization Audit Tool",
   "keywords": [

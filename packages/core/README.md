@@ -1,4 +1,4 @@
-# @pangaea/core
+# @pangaea-tools/core
 
 Core library for Pangaea. Provides an AuditRunner class for running globalization analyzers and
 generating comprehensive audit reports.
@@ -12,14 +12,14 @@ and actionable recommendations.
 ## Installation
 
 ```bash
-npm install @pangaea/core
+npm install @pangaea-tools/core
 ```
 
 ## Basic Usage
 
 ```typescript
-import { AuditRunner } from '@pangaea/core';
-import type { Analyzer } from '@pangaea/core';
+import { AuditRunner } from '@pangaea-tools/core';
+import type { Analyzer } from '@pangaea-tools/core';
 
 // Run the audit
 const report = await AuditRunner.runAudit(document.body, window.location.href, [rtlAnalyzer]);
@@ -120,7 +120,7 @@ An `AuditReport` object containing:
 ### Complete Example
 
 ```typescript
-import { AuditRunner } from '@pangaea/core';
+import { AuditRunner } from '@pangaea-tools/core';
 import { rtlAnalyzer, encodingAnalyzer, layoutAnalyzer } from './analyzers';
 
 async function auditCurrentPage() {
