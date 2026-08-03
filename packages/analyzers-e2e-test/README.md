@@ -25,26 +25,19 @@ yarn test:ui
 
 ## Test Pages
 
+All fixtures live under `test-pages/`.
+
 - **good-page.html** - Page with proper globalization practices
 - **bad-page.html** - Page with globalization issues
+- **collation-demos.html** - Lists, selects, and tables with locale-unaware sort order
+- **ime-demos.html** - Inputs with event handlers that are missing/present the `isComposing` check
+- **language-demos.html** - Text and links with a language mismatch against the page's `lang`
 
-## Layout Flow Analyzer Test Pages
+### Layout Stability Analyzer Test Pages
 
-- **direct-content-overflow.html** - Elements whose content overflows their visible area
-  - Parent containers with fixed widths
-  - Nested containers with overflow
-  - Tests deduplication logic
-
-- **geometric-position-drift.html** - Elements that shift position when text expands/shrinks
-  - Vertical drift from inline elements wrapping
-  - Horizontal and vertical drift in grid layouts
-  - Absolute positioning drift
-  - Tests both expansion (30% larger) and shrinkage (30% smaller) scenarios
-
-- **parent-dimension-overflow.html** - Elements that overflow parent dimensions
-  - Width overflow (child wider than parent)
-  - Height overflow (child taller than parent)
-  - Nested overflow scenarios
-  - Flex container overflow
+- **layoutStability.analyzer/self-overflow.html** - Elements whose content overflows their own
+  container after text expansion
+- **layoutStability.analyzer/sibling-collision.html** - Elements that shift and collide with
+  siblings after text expansion
 
 Tests run against `http://localhost:3000` (server starts automatically).

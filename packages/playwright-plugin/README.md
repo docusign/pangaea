@@ -2,9 +2,7 @@
 
 A Playwright plugin for auditing web applications for globalization and internationalization issues.
 Detects RTL layout problems, encoding issues, layout stability problems, IME input handling, and
-language/collation mismatches across single or multiple pages. Detects RTL layout problems, encoding
-issues, layout stability problems, IME input handling, and language/collation mismatches across
-single or multiple pages.
+language/collation mismatches across single or multiple pages.
 
 ## Installation
 
@@ -71,12 +69,6 @@ test('should pass globalization audit', async ({ page }) => {
 
 - `page` (Playwright Page) — The page to audit
 - `thresholds` (object) — Score thresholds for pass/fail evaluation
-
-**Structured Mode Parameters:**
-
-- `target` (object) — Page identity for artifact naming and reporting
-  - `name` (string) — Human-readable page label (e.g., "Homepage", "Billing")
-  - `path` (string) — Route path relative to app root (e.g., "/", "/billing")
   - `RTLAnalyzer` (number, 0-100, optional) — Right-to-left layout support
   - `EncodingAnalyzer` (number, 0-100, optional) — Text encoding compatibility
   - `LayoutStabilityAnalyzer` (number, 0-100, optional) — Layout stability (overflow detection)
@@ -85,6 +77,12 @@ test('should pass globalization audit', async ({ page }) => {
   - `CollationAnalyzer` (number, 0-100, optional) — Collation/sorting detection
   - `globalizationScore` (number, 0-100, optional) — Overall globalization score threshold
   - **Set any threshold to 0 to disable that analyzer entirely**
+
+**Structured Mode Parameters:**
+
+- `target` (object) — Page identity for artifact naming and reporting
+  - `name` (string) — Human-readable page label (e.g., "Homepage", "Billing")
+  - `path` (string) — Route path relative to app root (e.g., "/", "/billing")
 - `resultArtifactsDir` (string, optional) — Directory to write JSON and text report artifacts
 
 **Optional Parameters:**
@@ -106,6 +104,7 @@ test('should pass globalization audit', async ({ page }) => {
   recovery)
 - `changeLang` (async function, optional) — Callback to switch application locale before
   language-dependent analyzers run
+  - Only invoked if `revertLang` is also provided
 - `revertLang` (async function, optional) — Callback to restore original locale after
   language-dependent analyzers complete
   - Only invoked if `changeLang` is also provided
@@ -237,67 +236,8 @@ of throwing.
 
 By default, the plugin runs all analyzers in an English-only context. To test language-dependent
 behavior (e.g., text mismatches in different locales), provide `changeLang` and `revertLang`
-callbacks that orchestrate locale switching via your application's UI:
-
-```typescript
-const changeLang = async (): Promise<void> => {
-  const langButton = page.locator('[data-qa="footer-link-LANGUAGE_SELECTOR"]');
-  await langButton.click();
-
-  const jaOption = page.locator('[data-qa="language-selection-ja"]');
-  await jaOption.click();
-
-  await page.waitForLoadState('networkidle');
-};
-
-const revertLang = async (): Promise<void> => {
-  const langButton = page.locator('[data-qa="footer-link-LANGUAGE_SELECTOR"]');
-  await langButton.click();
-
-  const enOption = page.locator('[data-qa="language-selection-en"]');
-  await enOption.click();
-
-  await page.waitForLoadState('networkidle');
-};
-
-const report = await runAudit({
-  page,
-  thresholds: {
-    RTLAnalyzer: 70,
-    EncodingAnalyzer: 70,
-    LayoutStabilityAnalyzer: 60,
-    IMEAnalyzer: 60,
-    LanguageAnalyzer: 70,
-    CollationAnalyzer: 70,
-    globalizationScore: 70,
-  },
-  languageTarget: 'ja',
-  changeLang,
-  revertLang,
-});
-```
-
-**Audit Flow with Locale Callbacks:**
-
-1. Non-locale-dependent analyzers run against the page's current locale state.
-2. If both callbacks are provided, `changeLang()` is invoked before the locale-dependent phase.
-3. Locale-dependent analyzers run against the page's active locale state.
-4. If a locale switch occurred, `revertLang()` is invoked for cleanup.
-5. All phase results are merged into a single report.
-
-**Important Notes:**
-
-- If `changeLang` throws an error, the audit fails and `revertLang` is still attempted for cleanup
-- If `revertLang` throws an error after a successful audit, the error is propagated
-- If callbacks are not provided, all analyzers run in the default English state
-- The `languageTarget` parameter sets the `lang` attribute for language analyzer context
-
-## Locale Switching with Callbacks
-
-By default, the plugin runs all analyzers in an English-only context. To test language-dependent
-behavior (e.g., text mismatches in different locales), provide `changeLang` and `revertLang`
-callbacks that orchestrate locale switching via your application's UI: Callback functions should be
-provided in the test code
+callbacks that orchestrate locale switching via your application's UI. Both callbacks must be
+provided together — `changeLang` is only invoked if `revertLang` is also supplied, and vice versa.
 
 ```typescript
 const changeLang = async (): Promise<void> => {
@@ -345,9 +285,11 @@ const result = await runAudit({
 
 **Audit Flow with Locale Callbacks:**
 
-1. Non-language analyzers (RTL, Encoding, LayoutStability, IME) run in default English state
+1. Non-locale-dependent analyzers (RTL, Encoding, LayoutStability, IME by default) run in the
+   current locale state
 2. `changeLang()` callback is invoked to switch application locale via UI
-3. Language-dependent analyzers (Language, Collation) run in the target locale
+3. Locale-dependent analyzers (Language, Collation by default — override with
+   `localeDependentAnalyzerNames`) run in the target locale
 4. `revertLang()` callback is invoked to restore original locale
 5. All phase results are merged into a single report
 
