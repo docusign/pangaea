@@ -56,8 +56,8 @@ guard, the app interrupts the composition mid-stroke.
 
 ## Event Handler Strategy
 
-The default (and currently only) strategy. It inspects event listeners on each input element for
-missing `isComposing` checks.
+One of two default strategies. It inspects event listeners on each input element for missing
+`isComposing` checks.
 
 ### Detection Logic
 
@@ -70,6 +70,15 @@ For each element, the strategy:
 4. Flags the handler if the source doesn't contain `isComposing`.
 
 Each flagged handler produces one issue with the `eventType` in `issueMetadata`.
+
+## React Props Strategy
+
+The second default strategy. Frameworks like React attach handlers via synthetic props rather than
+`addEventListener`, so `getEventListeners` can't see them. This strategy reads React's internal
+fiber/props keys directly off the DOM element (`__reactProps$`, `__reactFiber$`, or
+`__reactInternalInstance$`, depending on React version) and inspects `onKeyDown`, `onKeyUp`,
+`onKeyPress`, `onInput`, `onBeforeInput`, and `onChange` handlers for a missing `isComposing` check.
+Issues from this strategy are always `critical` severity.
 
 ### `getEventListeners` — Dependency Injection
 
@@ -96,16 +105,17 @@ When the real API is unavailable, consumers pass a no-op fallback `() => ({})`.
 
 The analyzer targets text-accepting input elements:
 
-| Selector                 | Covers                    |
-| ------------------------ | ------------------------- |
-| `input[type="text"]`     | Standard text fields      |
-| `input[type="search"]`   | Search fields             |
-| `input[type="email"]`    | Email fields              |
-| `input[type="url"]`      | URL fields                |
-| `input[type="tel"]`      | Telephone fields          |
-| `input[type="password"]` | Password fields           |
-| `input:not([type])`      | Inputs defaulting to text |
-| `textarea`               | Multi-line text areas     |
+| Selector                                           | Covers                      |
+| -------------------------------------------------- | --------------------------- |
+| `input[type="text"]`                               | Standard text fields        |
+| `input[type="search"]`                             | Search fields               |
+| `input[type="email"]`                              | Email fields                |
+| `input[type="url"]`                                | URL fields                  |
+| `input[type="tel"]`                                | Telephone fields            |
+| `input[type="password"]`                           | Password fields             |
+| `input:not([type])`                                | Inputs defaulting to text   |
+| `textarea`                                         | Multi-line text areas       |
+| `[contenteditable="true"]`, `[contenteditable=""]` | Editable non-input elements |
 
 Non-text inputs (`checkbox`, `number`, `button`, etc.) are excluded — they don't accept IME
 composition.
@@ -120,13 +130,15 @@ const analyzer = new IMEAnalyzer({
 
 ## File Structure
 
-| File                           | Purpose                                                           |
-| ------------------------------ | ----------------------------------------------------------------- |
-| `imeAnalyzer.ts`               | Orchestrator — collects elements, builds context, runs strategies |
-| `eventHandlerStrategy.ts`      | Detection strategy — inspects listeners for missing `isComposing` |
-| `types.ts`                     | `IMEAnalyzerOptions`, `IMEAnalyzerContext`, `GetEventListenersFn` |
-| `imeAnalyzer.test.ts`          | Unit tests for the analyzer orchestrator                          |
-| `eventHandlerStrategy.test.ts` | Unit tests for the event handler strategy                         |
+| File                           | Purpose                                                                       |
+| ------------------------------ | ----------------------------------------------------------------------------- |
+| `imeAnalyzer.ts`               | Orchestrator — collects elements, builds context, runs strategies             |
+| `eventHandlerStrategy.ts`      | Detection strategy — inspects listeners for missing `isComposing`             |
+| `reactPropsStrategy.ts`        | Detection strategy — inspects React synthetic props for missing `isComposing` |
+| `types.ts`                     | `IMEAnalyzerOptions`, `IMEAnalyzerContext`, `GetEventListenersFn`             |
+| `imeAnalyzer.test.ts`          | Unit tests for the analyzer orchestrator                                      |
+| `eventHandlerStrategy.test.ts` | Unit tests for the event handler strategy                                     |
+| `reactPropsStrategy.test.ts`   | Unit tests for the React props strategy                                       |
 
 ## Extending with Custom Strategies
 

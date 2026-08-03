@@ -88,7 +88,8 @@ static async runAudit(
   url: string,
   analyzers: Analyzer[],
   analyzerWeights?: Record<string, number>,
-  errorSensitivity?: number
+  analyzerErrorSensitivity?: Record<string, number>,
+  onProgress?: (progress: AuditProgress) => void
 ): Promise<AuditReport>
 ```
 
@@ -98,8 +99,11 @@ static async runAudit(
 - **`url`** - The URL of the audited page
 - **`analyzers`** - Array of analyzer instances to run
 - **`analyzerWeights`** _(optional)_ - Custom weights for each analyzer (defaults to equal weights)
-- **`errorSensitivity`** _(optional)_ - Error sensitivity for score calculation (defaults to 5,
-  range 1-10)
+- **`analyzerErrorSensitivity`** _(optional)_ - Per-analyzer error sensitivity for score
+  calculation, keyed by analyzer name (defaults to 5 for any analyzer not present in the map, range
+  1-10)
+- **`onProgress`** _(optional)_ - Callback invoked before each analyzer runs, receiving the analyzer
+  name and progress counts
 
 #### Returns
 
@@ -133,7 +137,7 @@ async function auditCurrentPage() {
       Encoding: 1.5, // Encoding is moderately important
       Layout: 1, // Layout has default importance
     },
-    5, // Default error sensitivity
+    { RTL: 5, Encoding: 5, Layout: 5 }, // Default error sensitivity per analyzer
   );
 
   // Display results
@@ -196,7 +200,7 @@ const report = await AuditRunner.runAudit(
 
 ### Custom Error Sensitivity for Overall Score
 
-Adjust how harshly issues affect the score:
+Adjust how harshly issues affect the score, per analyzer:
 
 ```typescript
 // Lenient scoring
@@ -205,7 +209,7 @@ const lenientReport = await AuditRunner.runAudit(
   window.location.href,
   [rtlAnalyzer],
   undefined, // no custom weights
-  2, // very lenient
+  { RTLAnalyzer: 2 }, // very lenient
 );
 
 // Strict scoring
@@ -214,33 +218,38 @@ const strictReport = await AuditRunner.runAudit(
   window.location.href,
   [rtlAnalyzer],
   undefined,
-  9, // very strict
+  { RTLAnalyzer: 9 }, // very strict
 );
 ```
 
-### Severity Weights for Analyzer Scores
+### Severity Levels and Deductions for Analyzer Scores
 
-Issues are weighted by severity when calculating analyzer scores:
+Issues are grouped by severity when calculating an analyzer's score:
 
-| Severity   | Penalty Weight |
-| ---------- | -------------- |
-| `critical` | 20             |
-| `serious`  | 10             |
-| `warning`  | 5              |
-| `info`     | 1              |
+| Severity   | Effect on score                                                            |
+| ---------- | -------------------------------------------------------------------------- |
+| `critical` | Any single `critical` issue immediately drops the analyzer score to `0`    |
+| `serious`  | Linear deduction — `5` points per issue, no diminishing returns            |
+| `moderate` | Diminishing returns per issue type — `3 × sqrt(count)` for each issue type |
+| `minor`    | Diminishing returns pooled across all types — `2 × sqrt(totalMinorCount)`  |
+| `info`     | No effect on score                                                         |
 
 ### Analyzer Score Calculation Formula
 
-Each analyzer's score is calculated using an exponential decay formula:
+Unless a `critical` issue is present (which forces the score to `0`), the score is:
 
 ```
-score = 100 × e^(-totalPenalty × errorSensitivity / 100)
+totalDeduction = (5 × seriousCount)
+               + Σ (3 × sqrt(countForType)) over each moderate issue type
+               + (2 × sqrt(totalMinorCount))
+
+adjustedDeduction = totalDeduction × (errorSensitivity / 5)
+
+score = clamp(round(100 - adjustedDeduction), 0, 100)
 ```
 
-Where:
-
-- `totalPenalty` = sum of all issue weights
-- `errorSensitivity` = sensitivity parameter (1-10)
+Where `errorSensitivity` is the per-analyzer sensitivity value (default `5`, range 1-10). A value of
+`5` is neutral (1x multiplier), `10` doubles the deduction, and `1` reduces it to 0.2x.
 
 ### Analyzer Score Calculation Examples
 
@@ -249,22 +258,20 @@ Where:
 | Issues                 | Score |
 | ---------------------- | ----- |
 | No issues              | 100   |
-| 1 info                 | 95    |
-| 1 warning              | 78    |
-| 1 serious              | 61    |
-| 1 critical             | 37    |
-| 2 critical             | 14    |
-| 1 critical + 2 serious | 22    |
+| 1 info                 | 100   |
+| 1 serious              | 95    |
+| 1 moderate             | 97    |
+| 1 minor                | 98    |
+| 1 critical (any count) | 0     |
+| 4 serious              | 80    |
 
-**Same issues with different sensitivity:**
+**Same non-critical issue with different sensitivity (1 serious issue):**
 
-| errorSensitivity | 1 Critical Issue | 1 Critical + 1 Serious |
-| ---------------- | ---------------- | ---------------------- |
-| 1 (lenient)      | 82               | 74                     |
-| 3                | 55               | 41                     |
-| 5 (default)      | 37               | 22                     |
-| 7                | 25               | 12                     |
-| 10 (strict)      | 14               | 5                      |
+| errorSensitivity | Score |
+| ---------------- | ----- |
+| 1 (lenient)      | 99    |
+| 5 (default)      | 95    |
+| 10 (strict)      | 90    |
 
 ## Type Definitions
 
@@ -283,13 +290,14 @@ interface Analyzer {
 interface Issue {
   id: string;
   type: string;
-  severity: 'critical' | 'serious' | 'warning' | 'info';
-  message: string;
+  severity: 'critical' | 'serious' | 'moderate' | 'minor' | 'info';
   elementSelector: string;
-  remediation: {
+  message?: string;
+  remediation?: {
     docsUrl: string;
     suggestion: string;
   };
+  issueMetadata?: Record<string, unknown>;
 }
 ```
 
@@ -302,5 +310,17 @@ interface AuditReport {
   timestamp: string;
   url: string;
   issues: Issue[];
+}
+```
+
+### AuditProgress
+
+Passed to the optional `onProgress` callback of `AuditRunner.runAudit()` before each analyzer runs.
+
+```typescript
+interface AuditProgress {
+  currentAnalyzer: string;
+  completedAnalyzers: number;
+  totalAnalyzers: number;
 }
 ```

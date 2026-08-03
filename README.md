@@ -11,12 +11,12 @@ automated CI auditing.
 
 ## Packages
 
-| Package                                                      | Name                       | Description                                                 |
-| ------------------------------------------------------------ | -------------------------- | ----------------------------------------------------------- |
-| [`packages/core`](packages/core)                             | `@pangaea-g11n/core`       | Analyzer engine — runs analyzers and produces audit reports |
-| [`packages/playwright-plugin`](packages/playwright-plugin)   | `@pangaea-g11n/playwright` | Playwright plugin for running audits in E2E tests           |
-| [`packages/devtools-extension`](packages/devtools-extension) | —                          | Chrome DevTools extension for interactive browser auditing  |
-| [`packages/analyzers-e2e-test`](packages/analyzers-e2e-test) | —                          | E2E smoke tests for the analyzers themselves                |
+| Package                                                      | Name                                         | Description                                                 |
+| ------------------------------------------------------------ | -------------------------------------------- | ----------------------------------------------------------- |
+| [`packages/core`](packages/core)                             | `@pangaea-g11n/core`                         | Analyzer engine — runs analyzers and produces audit reports |
+| [`packages/playwright-plugin`](packages/playwright-plugin)   | `@pangaea-g11n/playwright`                   | Playwright plugin for running audits in E2E tests           |
+| [`packages/devtools-extension`](packages/devtools-extension) | `@pangaea-g11n/extension` (private)          | Chrome DevTools extension for interactive browser auditing  |
+| [`packages/analyzers-e2e-test`](packages/analyzers-e2e-test) | `@pangaea-g11n/analyzers-e2e-test` (private) | E2E smoke tests for the analyzers themselves                |
 
 ---
 
@@ -72,12 +72,12 @@ code.
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable **Developer mode** (toggle in the top-right corner)
 4. Click **Load unpacked** and select `packages/devtools-extension/dist`
-5. Open Chrome DevTools (`F12`) and look for the **Globalization Audit** tab
+5. Open Chrome DevTools (`F12`) and look for the **Pangæa** tab
 
 ### Run an Audit
 
 1. Navigate to the page you want to inspect
-2. Open DevTools → **Globalization Audit** tab
+2. Open DevTools → **Pangæa** tab
 3. Configure the analyzers you want to run and click **Run Audit**
 4. Click on any issue in the report to highlight the offending element on the page
 5. Optionally export the report as a PDF
