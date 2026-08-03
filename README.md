@@ -11,12 +11,12 @@ automated CI auditing.
 
 ## Packages
 
-| Package                                                      | Name                        | Description                                                 |
-| ------------------------------------------------------------ | --------------------------- | ----------------------------------------------------------- |
+| Package                                                      | Name                       | Description                                                 |
+| ------------------------------------------------------------ | -------------------------- | ----------------------------------------------------------- |
 | [`packages/core`](packages/core)                             | `@pangaea-g11n/core`       | Analyzer engine — runs analyzers and produces audit reports |
 | [`packages/playwright-plugin`](packages/playwright-plugin)   | `@pangaea-g11n/playwright` | Playwright plugin for running audits in E2E tests           |
-| [`packages/devtools-extension`](packages/devtools-extension) | —                           | Chrome DevTools extension for interactive browser auditing  |
-| [`packages/analyzers-e2e-test`](packages/analyzers-e2e-test) | —                           | E2E smoke tests for the analyzers themselves                |
+| [`packages/devtools-extension`](packages/devtools-extension) | —                          | Chrome DevTools extension for interactive browser auditing  |
+| [`packages/analyzers-e2e-test`](packages/analyzers-e2e-test) | —                          | E2E smoke tests for the analyzers themselves                |
 
 ---
 
