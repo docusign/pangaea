@@ -43,7 +43,7 @@ A list is flagged if it:
 ## Usage
 
 ```ts
-import { CollationAnalyzer } from '@pangaea-tools/core';
+import { CollationAnalyzer } from '@pangaea-g11n/core';
 
 const analyzer = new CollationAnalyzer();
 const issues = await analyzer.run(document.body);

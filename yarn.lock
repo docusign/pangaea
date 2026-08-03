@@ -1085,20 +1085,20 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@pangaea-tools/analyzers-e2e-test@workspace:packages/analyzers-e2e-test":
+"@pangaea-g11n/analyzers-e2e-test@workspace:packages/analyzers-e2e-test":
   version: 0.0.0-use.local
-  resolution: "@pangaea-tools/analyzers-e2e-test@workspace:packages/analyzers-e2e-test"
+  resolution: "@pangaea-g11n/analyzers-e2e-test@workspace:packages/analyzers-e2e-test"
   dependencies:
-    "@pangaea-tools/core": "workspace:*"
-    "@pangaea-tools/playwright": "workspace:*"
+    "@pangaea-g11n/core": "workspace:*"
+    "@pangaea-g11n/playwright": "workspace:*"
     "@playwright/test": "npm:^1.40.0"
     http-server: "npm:^14.1.1"
   languageName: unknown
   linkType: soft
 
-"@pangaea-tools/core@workspace:*, @pangaea-tools/core@workspace:packages/core":
+"@pangaea-g11n/core@workspace:*, @pangaea-g11n/core@workspace:packages/core":
   version: 0.0.0-use.local
-  resolution: "@pangaea-tools/core@workspace:packages/core"
+  resolution: "@pangaea-g11n/core@workspace:packages/core"
   dependencies:
     "@medv/finder": "npm:^4.0.2"
     "@types/node": "npm:^22.10.1"
@@ -1109,11 +1109,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pangaea-tools/extension@workspace:packages/devtools-extension":
+"@pangaea-g11n/extension@workspace:packages/devtools-extension":
   version: 0.0.0-use.local
-  resolution: "@pangaea-tools/extension@workspace:packages/devtools-extension"
+  resolution: "@pangaea-g11n/extension@workspace:packages/devtools-extension"
   dependencies:
-    "@pangaea-tools/core": "workspace:*"
+    "@pangaea-g11n/core": "workspace:*"
     "@types/chrome": "npm:^0.0.270"
     "@types/node": "npm:^22.10.1"
     "@types/react": "npm:^18.2.45"
@@ -1131,9 +1131,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pangaea-tools/glob-audit-tool@workspace:.":
+"@pangaea-g11n/glob-audit-tool@workspace:.":
   version: 0.0.0-use.local
-  resolution: "@pangaea-tools/glob-audit-tool@workspace:."
+  resolution: "@pangaea-g11n/glob-audit-tool@workspace:."
   dependencies:
     "@changesets/cli": "npm:^2.27.9"
     "@eslint/js": "npm:^9.15.0"
@@ -1160,15 +1160,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@pangaea-tools/playwright@workspace:*, @pangaea-tools/playwright@workspace:packages/playwright-plugin":
+"@pangaea-g11n/playwright@workspace:*, @pangaea-g11n/playwright@workspace:packages/playwright-plugin":
   version: 0.0.0-use.local
-  resolution: "@pangaea-tools/playwright@workspace:packages/playwright-plugin"
+  resolution: "@pangaea-g11n/playwright@workspace:packages/playwright-plugin"
   dependencies:
     "@opentelemetry/api": "npm:^1.9.1"
     "@opentelemetry/exporter-logs-otlp-http": "npm:^0.221.0"
     "@opentelemetry/resources": "npm:^2.10.0"
     "@opentelemetry/sdk-logs": "npm:^0.221.0"
-    "@pangaea-tools/core": "workspace:*"
+    "@pangaea-g11n/core": "workspace:*"
     "@playwright/test": "npm:^1.40.0"
     "@types/node": "npm:^22.10.1"
     typescript: "npm:^5.7.2"

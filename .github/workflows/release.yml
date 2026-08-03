@@ -10,7 +10,7 @@
 # Requirements before enabling:
 #   - Set the NPM_TOKEN secret (automation token for the publishing npm account).
 #   - Confirm the package scope is one Docusign owns on the public npm registry
-#     (packages currently use the `@pangaea-tools/*` scope) and that each publishable
+#     (packages currently use the `@pangaea-g11n/*` scope) and that each publishable
 #     package sets an appropriate `publishConfig.access` (currently `restricted`).
 name: Release
 

@@ -11,13 +11,13 @@ single or multiple pages.
 Install the package from the monorepo workspace:
 
 ```bash
-npm install @pangaea-tools/playwright
+npm install @pangaea-g11n/playwright
 ```
 
 or with yarn:
 
 ```bash
-yarn add @pangaea-tools/playwright
+yarn add @pangaea-g11n/playwright
 ```
 
 ## Core Function
@@ -34,7 +34,7 @@ Import `runAudit` and execute a globalization audit on a single page:
 
 ```typescript
 import { test, expect } from '@playwright/test';
-import { runAudit } from '@pangaea-tools/playwright';
+import { runAudit } from '@pangaea-g11n/playwright';
 import { join } from 'path';
 
 test('should pass globalization audit', async ({ page }) => {
@@ -157,7 +157,7 @@ For auditing multiple pages in one run, call `runAudit()` per target page and as
 directly:
 
 ```typescript
-import { runAudit } from '@pangaea-tools/playwright';
+import { runAudit } from '@pangaea-g11n/playwright';
 import { join } from 'path';
 
 const pages = [
@@ -205,7 +205,7 @@ expect(
 ).toBe(true);
 ```
 
-Use the per-page text artifacts and/or the `@pangaea-tools/playwright/pangea-reporter` reporter for
+Use the per-page text artifacts and/or the `@pangaea-g11n/playwright/pangea-reporter` reporter for
 human-readable output in CI.
 
 ### Handling Audit Failures

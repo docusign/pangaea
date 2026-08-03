@@ -15,9 +15,9 @@ body:
     attributes:
       label: Affected package
       options:
-        - '@pangaea-tools/core'
-        - '@pangaea-tools/playwright'
-        - '@pangaea-tools/extension (Chrome DevTools)'
+        - '@pangaea-g11n/core'
+        - '@pangaea-g11n/playwright'
+        - '@pangaea-g11n/extension (Chrome DevTools)'
         - Not sure
     validations:
       required: true

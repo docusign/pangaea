@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { test, expect } from '@playwright/test';
-import { runAudit } from '@pangaea-tools/playwright';
+import { runAudit } from '@pangaea-g11n/playwright';
 
 test.describe('LanguageAnalyzer E2E', () => {
   test('should detect language mismatches on test page', async ({ page }) => {

@@ -33,14 +33,14 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
-      # The e2e tests import runAudit from the built @pangaea-tools/playwright package,
-      # which re-exports @pangaea-tools/core, so both must be built first.
+      # The e2e tests import runAudit from the built @pangaea-g11n/playwright package,
+      # which re-exports @pangaea-g11n/core, so both must be built first.
       - name: Build packages
-        run: yarn build --filter=@pangaea-tools/core --filter=@pangaea-tools/playwright
+        run: yarn build --filter=@pangaea-g11n/core --filter=@pangaea-g11n/playwright
 
       - name: Install Playwright browsers
-        run: yarn workspace @pangaea-tools/analyzers-e2e-test exec playwright install --with-deps chromium
+        run: yarn workspace @pangaea-g11n/analyzers-e2e-test exec playwright install --with-deps chromium
 
       # Playwright starts its own static file server (see playwright.config.ts webServer).
       - name: Run E2E tests
-        run: yarn workspace @pangaea-tools/analyzers-e2e-test test
+        run: yarn workspace @pangaea-g11n/analyzers-e2e-test test

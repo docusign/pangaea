@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import type { Page } from '@playwright/test';
-import type { AuditReport, Issue } from '@pangaea-tools/core';
+import type { AuditReport, Issue } from '@pangaea-g11n/core';
 import { promises as fs } from 'node:fs';
 import { sendAuditMetrics } from './telemetry';
 import { join } from 'path';
@@ -571,7 +571,7 @@ async function runAuditCore(
     const coreBundle = getCoreBundle();
     if (!coreBundle) {
       throw new Error(
-        'Core engine bundle not found. Make sure @pangaea-tools/core is built and available.',
+        'Core engine bundle not found. Make sure @pangaea-g11n/core is built and available.',
       );
     }
 

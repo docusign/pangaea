@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { test, expect } from '@playwright/test';
-import { runAudit } from '@pangaea-tools/playwright';
+import { runAudit } from '@pangaea-g11n/playwright';
 
 test.describe('RTLAnalyzer E2E', () => {
   test('should pass audit for page with good globalization practices', async ({ page }) => {
