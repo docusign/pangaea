@@ -1,6 +1,6 @@
 # Analyzers E2E Test Package
 
-End-to-end tests for analyzers using the `@pangaea-tools/playwright` plugin.
+End-to-end tests for analyzers using the `@pangaea-g11n/playwright` plugin.
 
 ## Setup
 

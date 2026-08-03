@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { test, expect } from '@playwright/test';
-import { runAudit } from '@pangaea-tools/playwright';
+import { runAudit } from '@pangaea-g11n/playwright';
 
 test.describe('IMEAnalyzer E2E', () => {
   test('should detect IME issues on ime-demos page', async ({ page }) => {

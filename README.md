@@ -11,12 +11,12 @@ automated CI auditing.
 
 ## Packages
 
-| Package                                                      | Name                        | Description                                                 |
-| ------------------------------------------------------------ | --------------------------- | ----------------------------------------------------------- |
-| [`packages/core`](packages/core)                             | `@pangaea-tools/core`       | Analyzer engine — runs analyzers and produces audit reports |
-| [`packages/playwright-plugin`](packages/playwright-plugin)   | `@pangaea-tools/playwright` | Playwright plugin for running audits in E2E tests           |
-| [`packages/devtools-extension`](packages/devtools-extension) | —                           | Chrome DevTools extension for interactive browser auditing  |
-| [`packages/analyzers-e2e-test`](packages/analyzers-e2e-test) | —                           | E2E smoke tests for the analyzers themselves                |
+| Package                                                      | Name                       | Description                                                 |
+| ------------------------------------------------------------ | -------------------------- | ----------------------------------------------------------- |
+| [`packages/core`](packages/core)                             | `@pangaea-g11n/core`       | Analyzer engine — runs analyzers and produces audit reports |
+| [`packages/playwright-plugin`](packages/playwright-plugin)   | `@pangaea-g11n/playwright` | Playwright plugin for running audits in E2E tests           |
+| [`packages/devtools-extension`](packages/devtools-extension) | —                          | Chrome DevTools extension for interactive browser auditing  |
+| [`packages/analyzers-e2e-test`](packages/analyzers-e2e-test) | —                          | E2E smoke tests for the analyzers themselves                |
 
 ---
 
@@ -86,7 +86,7 @@ code.
 
 ## Playwright Plugin
 
-Use `@pangaea-tools/playwright` to add globalization checks directly into your Playwright E2E test
+Use `@pangaea-g11n/playwright` to add globalization checks directly into your Playwright E2E test
 suite.
 
 ### Install
@@ -94,7 +94,7 @@ suite.
 Add it to your project:
 
 ```bash
-yarn add @pangaea-tools/playwright
+yarn add @pangaea-g11n/playwright
 ```
 
 ### Usage
@@ -103,7 +103,7 @@ Import `runAudit` and run it against a page inside a test:
 
 ```typescript
 import { test, expect } from '@playwright/test';
-import { runAudit } from '@pangaea-tools/playwright';
+import { runAudit } from '@pangaea-g11n/playwright';
 
 test('passes the globalization audit', async ({ page }) => {
   await page.goto('https://example.com');

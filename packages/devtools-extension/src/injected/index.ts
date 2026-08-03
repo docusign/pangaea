@@ -11,7 +11,7 @@ import globAuditCore, {
   pseudolocalize,
   defaultConfigurationJSON,
   pseudolocalizeText,
-} from '@pangaea-tools/core';
+} from '@pangaea-g11n/core';
 
 export default {
   Core: globAuditCore,

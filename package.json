@@ -1,5 +1,5 @@
 {
-  "name": "@pangaea-tools/glob-audit-tool",
+  "name": "@pangaea-g11n/glob-audit-tool",
   "version": "0.0.0",
   "private": true,
   "type": "module",

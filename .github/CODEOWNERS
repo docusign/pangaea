@@ -1,0 +1,5 @@
+# SPDX-FileCopyrightText: 2026 Docusign, Inc.
+# SPDX-License-Identifier: MIT
+
+# Default owners for everything in the repo, unless a later match takes precedence.
+* @amineelm0
