@@ -26,7 +26,7 @@
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage --passWithNoTests",
-    "check-types": "tsc --build tsconfig.checktypes.json",
+    "check-types": "tsc --build",
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist coverage .turbo .tsbuildinfo"
   },
