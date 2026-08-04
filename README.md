@@ -3,10 +3,7 @@
 [![CI](https://github.com/docusign/pangaea/actions/workflows/ci.yml/badge.svg)](https://github.com/docusign/pangaea/actions/workflows/ci.yml)
 [![coverage](https://img.shields.io/badge/coverage-90%25-brightgreen.svg)](packages/core/vitest.config.mts)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![npm: @pangaea-g11n/core](https://img.shields.io/npm/v/@pangaea-g11n/core.svg?label=%40pangaea-g11n%2Fcore)](https://www.npmjs.com/package/@pangaea-g11n/core)
 [![npm downloads: @pangaea-g11n/core](https://img.shields.io/npm/dm/@pangaea-g11n/core.svg)](https://www.npmjs.com/package/@pangaea-g11n/core)
-[![npm: @pangaea-g11n/playwright](https://img.shields.io/npm/v/@pangaea-g11n/playwright.svg?label=%40pangaea-g11n%2Fplaywright)](https://www.npmjs.com/package/@pangaea-g11n/playwright)
-[![npm downloads: @pangaea-g11n/playwright](https://img.shields.io/npm/dm/@pangaea-g11n/playwright.svg)](https://www.npmjs.com/package/@pangaea-g11n/playwright)
 [![Node.js Version](https://img.shields.io/node/v/@pangaea-g11n/core.svg)](package.json)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
 
