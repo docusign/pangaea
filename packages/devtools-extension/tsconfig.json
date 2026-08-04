@@ -11,8 +11,7 @@
     "skipLibCheck": true,
     "sourceMap": false,
     "declarationMap": false,
-    "declaration": false,
-    "noEmit": true
+    "declaration": false
   },
   "include": ["src"]
 }
