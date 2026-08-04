@@ -32,15 +32,15 @@
   },
   "dependencies": {
     "@pangaea-g11n/core": "workspace:*",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "uuid": "^13.0.0"
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "uuid": "^14.0.1"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.270",
     "@types/node": "^22.10.1",
-    "@types/react": "^18.2.45",
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "@types/uuid": "^11.0.0",
     "copy-webpack-plugin": "^14.0.0",
     "html-webpack-plugin": "^5",
