@@ -47,5 +47,8 @@ jobs:
       - name: Test
         run: yarn test --filter='!*e2e*'
 
+      - name: Check core coverage thresholds
+        run: yarn test:coverage --filter=@pangaea-g11n/core
+
       - name: Build
         run: yarn build
