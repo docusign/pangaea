@@ -15,7 +15,7 @@ export default defineConfig({
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'cobertura'],
-      exclude: ['node_modules/**', 'dist/**', '**/*.d.ts', '**/*.config.*', '**/index.ts'],
+      exclude: ['**/node_modules/**', '**/dist/**', '**/*.d.ts', '**/*.config.*', '**/index.ts'],
       reportsDirectory: './coverage',
     },
     include: ['**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],

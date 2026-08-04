@@ -13,5 +13,10 @@
     "declarationMap": false,
     "declaration": false
   },
-  "include": ["src"]
+  "include": ["src"],
+  "references": [
+    {
+      "path": "../core"
+    }
+  ]
 }
