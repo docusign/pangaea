@@ -48,7 +48,7 @@ jobs:
         run: yarn install --immutable
 
       - name: Create Release PR or publish
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
           publish: yarn release
           commit: 'chore: release + bump versions'
