@@ -65,6 +65,6 @@
   "dependencies": {
     "@medv/finder": "^4.0.2",
     "franc-min": "6.2.0",
-    "uuid": "^14.0.1"
+    "uuid": "^14.0.2"
   }
 }
