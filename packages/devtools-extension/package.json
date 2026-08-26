@@ -34,7 +34,7 @@
     "@pangaea-g11n/core": "workspace:*",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "uuid": "^14.0.1"
+    "uuid": "^14.0.2"
   },
   "devDependencies": {
     "@types/chrome": "^0.0.270",
