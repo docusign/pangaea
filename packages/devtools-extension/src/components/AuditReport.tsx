@@ -146,7 +146,7 @@ export const AuditReport: React.FC<AuditReportProps> = ({
         }}
       >
         <div style={{ flex: 1 }}>
-          <Heading level="1" text="Pangæa Audit Report" />
+          <Heading level="1" text="Docusign Pangæa Audit Report" />
         </div>
         <div className="no-print" style={{ display: 'flex', gap: '8px' }}>
           <Button onClick={onGoBack} text="Back" size="medium" kind="secondary" />

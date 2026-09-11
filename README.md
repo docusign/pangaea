@@ -1,4 +1,4 @@
-# Pangaea
+# Docusign Pangæa
 
 [![CI](https://github.com/docusign/pangaea/actions/workflows/ci.yml/badge.svg)](https://github.com/docusign/pangaea/actions/workflows/ci.yml)
 [![coverage](https://img.shields.io/badge/coverage-90%25-brightgreen.svg)](packages/core/vitest.config.mts)
@@ -76,12 +76,12 @@ code.
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable **Developer mode** (toggle in the top-right corner)
 4. Click **Load unpacked** and select `packages/devtools-extension/dist`
-5. Open Chrome DevTools (`F12`) and look for the **Pangæa** tab
+5. Open Chrome DevTools (`F12`) and look for the **Docusign Pangæa** tab
 
 ### Run an Audit
 
 1. Navigate to the page you want to inspect
-2. Open DevTools → **Pangæa** tab
+2. Open DevTools → **Docusign Pangæa** tab
 3. Configure the analyzers you want to run and click **Run Audit**
 4. Click on any issue in the report to highlight the offending element on the page
 5. Optionally export the report as a PDF

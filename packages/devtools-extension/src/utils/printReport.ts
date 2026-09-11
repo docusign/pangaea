@@ -98,7 +98,7 @@ export const printReport = (): void => {
       <html>
         <head>
           <meta charset="UTF-8">
-          <title>Pangæa Audit Report</title>
+          <title>Docusign Pangæa Audit Report</title>
           <style>
             ${styles}
             /* Force all accordions to be expanded and hide non-print elements */
