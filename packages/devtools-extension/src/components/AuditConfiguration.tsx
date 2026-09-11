@@ -80,7 +80,7 @@ export const AuditConfiguration: React.FC<AuditConfigurationProps> = ({
         level="1"
         text={
           <>
-            Pangæa DevTools
+            Docusign Pangæa
             <sub style={{ fontSize: '12px', fontWeight: 'bold', marginLeft: '4px' }}>
               v{version}
             </sub>
@@ -135,7 +135,7 @@ export const AuditConfiguration: React.FC<AuditConfigurationProps> = ({
             }
             checked={runLanguage}
             onChange={toggleLanguage}
-            description="Detects text and link language mismatches with the page language"
+            description="Detects text content language mismatches with the page language"
           />
           <Checkbox
             label="Collation"

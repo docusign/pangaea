@@ -1,4 +1,4 @@
-# Pangaea DevTools Extension
+# Docusign Pangæa DevTools Extension
 
 A Chrome DevTools extension for auditing web applications for globalization issues including RTL
 support, layout flow, and text encoding.
@@ -37,7 +37,7 @@ Make sure you've built the extension first (see above).
 ### Step 4: Using the Extension
 
 1. Open Chrome DevTools (F12 or Right-click → Inspect)
-2. Look for the "Pangæa" tab in the DevTools panel
+2. Look for the "Docusign Pangæa" tab in the DevTools panel
 3. Select which analyzers to run, configure any options, and click "Run Audit"
 4. View the results and print/export the report as needed
 
@@ -48,7 +48,7 @@ Make sure you've built the extension first (see above).
   during localization
 - **Encoding Analysis**: Finds encoding issues and problematic character usage (mojibake)
 - **IME Analysis**: Checks Input Method Editor support for CJK languages
-- **Language Analysis** _(experimental)_: Detects text and link language mismatches with the page
+- **Language Analysis** _(experimental)_: Detects text content language mismatches with the page
   language
 - **Collation Analysis**: Detects unsorted lists, selects, and table columns that ignore
   locale-aware collation
