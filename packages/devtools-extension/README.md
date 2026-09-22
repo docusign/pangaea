@@ -3,6 +3,10 @@
 A Chrome DevTools extension for auditing web applications for globalization issues including RTL
 support, layout flow, and text encoding.
 
+## Privacy Policy
+
+See the [Privacy Policy](PRIVACY.md) for details about local audit processing and report exports.
+
 ## Development
 
 ### Build the Extension
