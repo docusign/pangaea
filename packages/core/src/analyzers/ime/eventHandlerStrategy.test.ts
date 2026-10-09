@@ -42,7 +42,7 @@ describe('EventHandlerStrategy', () => {
           {
             listener: function handler(e: KeyboardEvent) {
               e.preventDefault();
-            } as unknown as (...args: unknown[]) => void,
+            } as (...args: unknown[]) => void,
           },
         ],
       });
@@ -64,7 +64,7 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         input: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
       });
@@ -88,7 +88,7 @@ describe('EventHandlerStrategy', () => {
             listener: function handler(e: KeyboardEvent) {
               if (e.isComposing) return;
               e.preventDefault();
-            } as unknown as (...args: unknown[]) => void,
+            } as (...args: unknown[]) => void,
           },
         ],
       });
@@ -116,12 +116,12 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         keydown: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
         input: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
       });
@@ -142,7 +142,7 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         beforeinput: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
       });
@@ -182,12 +182,12 @@ describe('EventHandlerStrategy', () => {
           {
             listener: function handler(e: KeyboardEvent) {
               e.preventDefault();
-            } as unknown as (...args: unknown[]) => void,
+            } as (...args: unknown[]) => void,
           },
         ],
         compositionstart: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
       });
@@ -205,12 +205,12 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         input: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
         compositionend: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
       });
@@ -228,7 +228,7 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         keydown: [
           {
-            listener: function handler() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler() {} as (...args: unknown[]) => void,
           },
         ],
         compositionstart: [],
@@ -249,10 +249,10 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         keydown: [
           {
-            listener: function handler1() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler1() {} as (...args: unknown[]) => void,
           },
           {
-            listener: function handler2() {} as unknown as (...args: unknown[]) => void,
+            listener: function handler2() {} as (...args: unknown[]) => void,
           },
         ],
       });
@@ -275,7 +275,7 @@ describe('EventHandlerStrategy', () => {
     const mockGetEventListeners: GetEventListenersFn = () => ({
       keydown: [
         {
-          listener: function handler() {} as unknown as (...args: unknown[]) => void,
+          listener: function handler() {} as (...args: unknown[]) => void,
         },
       ],
     });
