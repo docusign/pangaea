@@ -64,7 +64,7 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         input: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
       });
@@ -116,12 +116,12 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         keydown: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
         input: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
       });
@@ -142,7 +142,7 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         beforeinput: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
       });
@@ -187,7 +187,7 @@ describe('EventHandlerStrategy', () => {
         ],
         compositionstart: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
       });
@@ -205,12 +205,12 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         input: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
         compositionend: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
       });
@@ -228,7 +228,7 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         keydown: [
           {
-            listener: function handler() {} as (...args: unknown[]) => void,
+            listener: function handler() {},
           },
         ],
         compositionstart: [],
@@ -249,10 +249,10 @@ describe('EventHandlerStrategy', () => {
       const mockGetEventListeners: GetEventListenersFn = () => ({
         keydown: [
           {
-            listener: function handler1() {} as (...args: unknown[]) => void,
+            listener: function handler1() {},
           },
           {
-            listener: function handler2() {} as (...args: unknown[]) => void,
+            listener: function handler2() {},
           },
         ],
       });
@@ -275,7 +275,7 @@ describe('EventHandlerStrategy', () => {
     const mockGetEventListeners: GetEventListenersFn = () => ({
       keydown: [
         {
-          listener: function handler() {} as (...args: unknown[]) => void,
+          listener: function handler() {},
         },
       ],
     });

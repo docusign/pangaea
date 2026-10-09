@@ -140,11 +140,8 @@ describe('EncodingAnalyzer', () => {
 
   describe('error handling', () => {
     it('should handle null or undefined root elements gracefully', async () => {
-      try {
-        await analyzer.run(null as any);
-      } catch (error) {
-        expect(error).toBeDefined();
-      }
+      await expect(analyzer.run(null as any)).rejects.toThrow(TypeError);
+      await expect(analyzer.run(undefined as any)).rejects.toThrow(TypeError);
     });
 
     it('should handle missing meta elements gracefully', async () => {
@@ -158,12 +155,7 @@ describe('EncodingAnalyzer', () => {
         ownerDocument: mockDocument,
       } as any;
 
-      try {
-        const result = await analyzer.run(mockElement);
-        expect(Array.isArray(result)).toBe(true);
-      } catch (error) {
-        expect(error).toBeDefined();
-      }
+      await expect(analyzer.run(mockElement)).resolves.toEqual(expect.any(Array));
     });
   });
 

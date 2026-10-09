@@ -56,14 +56,11 @@ describe('ParentOverflowAnalyzerStrategy', () => {
     document.body.appendChild(parent);
     overflowXValue = 'visible';
     overflowYValue = 'visible';
-    vi.spyOn(window, 'getComputedStyle').mockImplementation(
-      (el) =>
-        ({
-          ...originalGetComputedStyle(el),
-          overflowX: overflowXValue,
-          overflowY: overflowYValue,
-        }) as CSSStyleDeclaration,
-    );
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => ({
+      ...originalGetComputedStyle(el),
+      overflowX: overflowXValue,
+      overflowY: overflowYValue,
+    }));
   });
 
   afterEach(() => {

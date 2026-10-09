@@ -25,7 +25,7 @@ export class DevToolsService {
    */
   static runGlobalizationAudit(analyzers: AuditAnalyzers, requestId: string): void {
     const auditScript = generateAuditScript(analyzers, requestId);
-    chrome.devtools.inspectedWindow.eval(auditScript);
+    void chrome.devtools.inspectedWindow.eval(auditScript);
   }
 
   /**
@@ -35,7 +35,7 @@ export class DevToolsService {
    */
   static highlightElement(elementSelector: string, metadata?: Record<string, unknown>): void {
     const highlightScript = generateHighlightScript(elementSelector, metadata);
-    chrome.devtools.inspectedWindow.eval(highlightScript);
+    void chrome.devtools.inspectedWindow.eval(highlightScript);
   }
 
   /**
@@ -47,6 +47,6 @@ export class DevToolsService {
         window.__globAuditCleanup();
       }
     `;
-    chrome.devtools.inspectedWindow.eval(clearScript);
+    void chrome.devtools.inspectedWindow.eval(clearScript);
   }
 }
