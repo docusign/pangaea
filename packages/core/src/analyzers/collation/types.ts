@@ -15,9 +15,7 @@ export interface CollationAnalyzerOptions {
 
 /** Issue types emitted by the collation analyzer. */
 export type CollationIssueType =
-  | 'collation-unsorted-list'
-  | 'collation-unsorted-select'
-  | 'collation-unsorted-table';
+  'collation-unsorted-list' | 'collation-unsorted-select' | 'collation-unsorted-table';
 
 /** Sort direction used by collation comparisons. */
 export type SortDirection = 'asc' | 'desc';

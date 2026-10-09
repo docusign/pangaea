@@ -17,9 +17,7 @@ import { computeOverflowThreshold } from './utils';
  * const strategy = new SelfOverflowAnalyzerStrategy();
  * const issues = strategy.analyze(context);
  */
-export class SelfOverflowAnalyzerStrategy
-  implements AnalyzerStrategy<LayoutStabilityAnalyzerContext>
-{
+export class SelfOverflowAnalyzerStrategy implements AnalyzerStrategy<LayoutStabilityAnalyzerContext> {
   readonly name: string = 'self-overflow-analyzer-strategy';
   readonly issueType: string = 'layout-stability-self-overflow';
 

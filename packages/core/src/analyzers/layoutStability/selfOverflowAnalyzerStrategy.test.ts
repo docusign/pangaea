@@ -62,14 +62,11 @@ describe('SelfOverflowAnalyzerStrategy', () => {
     mockHasDirectTextContent.mockReturnValue(true);
     overflowXValue = 'visible';
     overflowYValue = 'visible';
-    vi.spyOn(window, 'getComputedStyle').mockImplementation(
-      (el) =>
-        ({
-          ...originalGetComputedStyle(el),
-          overflowX: overflowXValue,
-          overflowY: overflowYValue,
-        }) as CSSStyleDeclaration,
-    );
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => ({
+      ...originalGetComputedStyle(el),
+      overflowX: overflowXValue,
+      overflowY: overflowYValue,
+    }));
   });
 
   afterEach(() => {

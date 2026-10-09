@@ -67,13 +67,10 @@ describe('MirroringStrategy', () => {
     document.body.appendChild(element);
     displayValue = 'block';
     mockHasDirectTextContent.mockReturnValue(false);
-    vi.spyOn(window, 'getComputedStyle').mockImplementation(
-      (el) =>
-        ({
-          ...originalGetComputedStyle(el),
-          display: displayValue,
-        }) as CSSStyleDeclaration,
-    );
+    vi.spyOn(window, 'getComputedStyle').mockImplementation((el) => ({
+      ...originalGetComputedStyle(el),
+      display: displayValue,
+    }));
   });
 
   afterEach(() => {

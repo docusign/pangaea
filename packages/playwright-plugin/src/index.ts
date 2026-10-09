@@ -480,7 +480,7 @@ async function runAuditPhase(
                 result[eventType] = sources.map((source) => ({
                   listener: Object.assign(() => {}, {
                     toString: () => source,
-                  }) as (...args: unknown[]) => void,
+                  }),
                 }));
               }
               return result;
@@ -585,7 +585,7 @@ async function runAuditCore(
     await page.goto(currentUrl, { waitUntil: 'domcontentloaded' });
     await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {});
 
-    const injectionCheck = (await page.evaluate(() => {
+    const injectionCheck = await page.evaluate(() => {
       return {
         isLoaded:
           typeof (window as { GlobalizationAudit?: unknown }).GlobalizationAudit !== 'undefined',
@@ -593,7 +593,7 @@ async function runAuditCore(
           (window as { GlobalizationAudit?: Record<string, unknown> }).GlobalizationAudit || {},
         ),
       };
-    })) as { isLoaded: boolean; exports: string[] };
+    });
 
     if (!injectionCheck.isLoaded) {
       throw new Error('Failed to inject GlobalizationAudit into the page');
@@ -647,6 +647,7 @@ async function runAuditCore(
             changeLangError = error instanceof Error ? error : new Error(String(error));
             throw new Error(
               `Language switching callback (changeLang) failed: ${changeLangError.message}. Audit cannot proceed to language phase.`,
+              { cause: error },
             );
           }
         }
@@ -685,7 +686,7 @@ async function runAuditCore(
     const mergedIssues = [...(nonLanguageReport?.issues ?? []), ...(languageReport?.issues ?? [])];
 
     // Compute merged globalization score in the browser where calculateOverallScore is available
-    const mergedReport = (await page.evaluate(
+    const mergedReport = await page.evaluate(
       (params: { analyzerScores: Record<string, number>; weights?: Record<string, number> }) => {
         const globalizationAudit = (
           window as unknown as {
@@ -710,13 +711,7 @@ async function runAuditCore(
         };
       },
       { analyzerScores: mergedAnalyzerScores, weights: analyzerWeights },
-    )) as {
-      analyzerScores: Record<string, number>;
-      globalizationScore: number;
-      timestamp: string;
-      url: string;
-      issues: unknown[];
-    };
+    );
 
     const report = Object.assign(mergedReport, {
       issues: mergedIssues,
@@ -739,7 +734,7 @@ async function runAuditCore(
     if (error instanceof Error) {
       throw error;
     }
-    throw new Error(`Audit execution failed: ${String(error)}`);
+    throw new Error(`Audit execution failed: ${String(error)}`, { cause: error });
   }
 }
 
@@ -872,7 +867,7 @@ export async function runAudit(options: RunAuditOptions): Promise<MenuAuditResul
         throw err;
       }
 
-      throw new Error(String(err));
+      throw new Error(String(err), { cause: err });
     }
 
     const failureResult: MenuAuditResult = {
@@ -924,7 +919,7 @@ function groupIssuesBySeverity(issues: Issue[]): Record<IssueSeverity, Issue[]> 
   };
 
   issues.forEach((issue) => {
-    const severity = (issue.severity ?? 'info') as IssueSeverity;
+    const severity = issue.severity ?? 'info';
     grouped[severity].push(issue);
   });
 

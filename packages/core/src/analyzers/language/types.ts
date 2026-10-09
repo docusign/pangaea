@@ -24,9 +24,7 @@ export interface LanguageAnalyzerOptions {
 }
 
 export type LanguageIssueType =
-  | 'language-text-mismatch'
-  | 'language-link-mismatch'
-  | 'language-missing-html-lang';
+  'language-text-mismatch' | 'language-link-mismatch' | 'language-missing-html-lang';
 
 export interface LanguageAnalyzerContext extends AnalyzerContext {
   options: Required<LanguageAnalyzerOptions>;
