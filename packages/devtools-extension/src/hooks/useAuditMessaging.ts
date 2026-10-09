@@ -148,7 +148,7 @@ export function useAuditMessaging(options: UseAuditMessagingOptions = {}): UseAu
   useEffect(() => {
     const inspectedTabId = chrome.devtools.inspectedWindow.tabId;
 
-    const handleTabActivated = (activeInfo: chrome.tabs.TabActiveInfo) => {
+    const handleTabActivated = (activeInfo: { tabId: number; windowId: number }) => {
       if (!auditTimeoutRef.current && !timeoutRemainingRef.current) return;
 
       if (activeInfo.tabId === inspectedTabId) {
