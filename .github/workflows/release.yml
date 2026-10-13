@@ -50,9 +50,9 @@ jobs:
       - name: Create Release PR or publish
         uses: changesets/action@v2
         with:
-          publish: yarn release
-          commit: 'chore: release + bump versions'
-          title: 'chore: release + bump versions'
+          publish-script: yarn release
+          commit-message: 'chore: release + bump versions'
+          pr-title: 'chore: release + bump versions'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
