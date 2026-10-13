@@ -16,7 +16,7 @@ export function generateHighlightScript(
   elementSelector: string,
   metadata?: Record<string, unknown>,
 ): string {
-  const escapedSelector = elementSelector.replace(/'/g, "\\'");
+  const escapedSelector = JSON.stringify(elementSelector);
   const metadataJson = metadata ? JSON.stringify(metadata) : 'null';
   const selfOverflowTypes = JSON.stringify(SELF_OVERFLOW_TYPES);
   const parentOverflowTypes = JSON.stringify(PARENT_OVERFLOW_TYPES);
@@ -29,7 +29,7 @@ export function generateHighlightScript(
       ${generateCleanupExistingScript()}
 
       try {
-        const targetElement = document.querySelector('${escapedSelector}');
+        const targetElement = document.querySelector(${escapedSelector});
         const metadata = ${metadataJson};
         
         if (targetElement) {
