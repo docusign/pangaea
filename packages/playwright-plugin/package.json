@@ -1,6 +1,6 @@
 {
   "name": "@pangaea-g11n/playwright",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Playwright plugin for the Globalization Audit Tool",
   "keywords": [
     "globalization",
