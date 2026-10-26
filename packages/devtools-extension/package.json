@@ -1,6 +1,6 @@
 {
   "name": "@pangaea-g11n/extension",
-  "version": "0.1.0",
+  "version": "1.0.2",
   "private": true,
   "description": "Chrome Extension for the Globalization Audit Tool",
   "license": "MIT",
