@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Docusign Pangæa",
-  "version": "1.0",
+  "version": "1.2.0",
   "description": "DevTools panel to audit web pages for globalization and internationalization issues",
   "permissions": [],
   "devtools_page": "devtools.html",
